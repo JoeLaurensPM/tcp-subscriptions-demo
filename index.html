@@ -1,0 +1,3220 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Subscriptions — A Guide for Your Team | The Care Pharmacy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+/* ==========================================================================
+   TCP Subscriptions Guide — styles
+   Palette from BRAND.md, mobile-first, AA contrast.
+   ========================================================================== */
+
+:root {
+  --navy:         #060349;
+  --purple:       #980065;
+  --pink:         #ff27b7;
+  --pink-light:   #ffc6ea;
+  --cyan-light:   #E6F7FE;
+  --text:         #222128;
+  --text-muted:   #5a5a6a;
+  --blue:         #004fb2;
+  --danger:       #C00003;
+  --border:       #c6c5c9;
+  --white:        #ffffff;
+  --bg-soft:      #f7f6fb;
+
+  --status-active:    #4a9e53;
+  --status-active-bg: #e6f3e8;
+  --status-hold:      #b07d00;
+  --status-hold-bg:   #fff3d6;
+  --status-cancel:    #6f6f7a;
+  --status-cancel-bg: #ecebf0;
+  --status-missing:   #C00003;
+  --status-missing-bg: #ffe2e2;
+
+  --shadow-sm:  0 2px 8px rgba(6,3,73,0.06);
+  --shadow-md:  0 8px 24px rgba(6,3,73,0.08);
+  --shadow-lg:  0 20px 48px rgba(6,3,73,0.12);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', ui-sans-serif, system-ui, sans-serif;
+  color: var(--text);
+  background: var(--white);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a { color: var(--blue); }
+
+button, input, select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--pink);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- Layout primitives ---------- */
+.container {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section {
+  padding: 80px 0;
+  position: relative;
+}
+
+.section--alt { background: var(--bg-soft); }
+
+/* ---------- Typography ---------- */
+h1, h2, h3, h4 {
+  font-weight: 800;
+  color: var(--navy);
+  margin: 0 0 16px;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+h1 { font-size: clamp(38px, 7vw, 68px); }
+h2 { font-size: clamp(28px, 4.5vw, 42px); }
+h3 { font-size: clamp(20px, 2.5vw, 26px); font-weight: 700; }
+
+p { margin: 0 0 16px; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--pink);
+  color: var(--white);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+
+.lead {
+  font-size: clamp(17px, 1.6vw, 19px);
+  color: var(--text-muted);
+  max-width: 640px;
+}
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  padding: 72px 20px 120px;
+  color: var(--white);
+  background:
+    radial-gradient(900px 500px at 85% 10%, rgba(255,39,183,0.28), transparent 60%),
+    radial-gradient(700px 400px at 10% 80%, rgba(152,0,101,0.45), transparent 55%),
+    linear-gradient(135deg, #050237 0%, #060349 45%, #180652 100%);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.04), transparent 40%),
+    radial-gradient(circle at 70% 70%, rgba(255,198,234,0.08), transparent 40%);
+  pointer-events: none;
+  animation: drift 22s linear infinite;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50%      { transform: translate(-2%, 1%) rotate(2deg); }
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.hero__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 64px;
+}
+
+.hero__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
+  color: var(--white);
+  text-decoration: none;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+}
+
+.hero__logo-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 900;
+  box-shadow: 0 6px 20px rgba(255,39,183,0.4);
+}
+
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+}
+.hero__badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pink);
+  box-shadow: 0 0 0 4px rgba(255,39,183,0.3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(255,39,183,0.3); }
+  50%      { box-shadow: 0 0 0 8px rgba(255,39,183,0); }
+}
+
+.hero__eyebrow {
+  display: inline-block;
+  color: var(--pink-light);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  color: var(--white);
+  max-width: 18ch;
+  margin-bottom: 24px;
+}
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--pink-light) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero__sub {
+  color: rgba(255,255,255,0.82);
+  font-size: clamp(17px, 1.6vw, 20px);
+  max-width: 58ch;
+  margin-bottom: 40px;
+}
+
+.hero__cta-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 28px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), background 220ms var(--ease);
+  white-space: nowrap;
+}
+.btn--primary {
+  background: var(--pink);
+  color: var(--white);
+  box-shadow: 0 10px 30px rgba(255,39,183,0.35);
+}
+.btn--primary:hover {
+  background: #e81fa6;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(255,39,183,0.45);
+}
+.btn--ghost {
+  background: rgba(255,255,255,0.08);
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.btn--ghost:hover { background: rgba(255,255,255,0.14); }
+
+.hero__scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.6);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 1;
+}
+.hero__scroll-hint::after {
+  content: '';
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), transparent);
+  animation: scrollLine 2.4s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+  50%      { opacity: 1;   transform: scaleY(1); }
+}
+
+.hero__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 56px;
+  max-width: 640px;
+}
+.hero__stat {
+  padding: 18px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(6px);
+}
+.hero__stat-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.hero__stat-label {
+  color: rgba(255,255,255,0.7);
+  font-size: 13px;
+}
+
+/* Wave divider */
+.hero__wave {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   STICKY NAV RAIL
+   ========================================================================== */
+.nav-rail {
+  position: fixed;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .nav-rail { display: block; }
+}
+
+.nav-rail__track {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  padding: 24px 12px;
+  background: rgba(255,255,255,0.85);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(10px);
+}
+.nav-rail__line {
+  position: absolute;
+  left: 50%;
+  top: 36px;
+  bottom: 36px;
+  width: 2px;
+  background: var(--border);
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+.nav-rail__line-fill {
+  position: absolute;
+  inset: 0 0 auto 0;
+  background: linear-gradient(180deg, var(--pink), var(--purple));
+  border-radius: 2px;
+  height: 0;
+  transition: height 200ms var(--ease);
+}
+
+.nav-rail__dot {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--border);
+  cursor: pointer;
+  transition: all 220ms var(--ease);
+  display: block;
+  text-decoration: none;
+  z-index: 1;
+}
+.nav-rail__dot:hover { transform: scale(1.2); border-color: var(--pink); }
+.nav-rail__dot.is-active {
+  background: var(--pink);
+  border-color: var(--pink);
+  box-shadow: 0 0 0 6px rgba(255,39,183,0.15);
+}
+.nav-rail__label {
+  position: absolute;
+  left: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--navy);
+  color: var(--white);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease;
+}
+.nav-rail__dot:hover .nav-rail__label { opacity: 1; }
+
+/* Mobile top bar */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255,255,255,0.92);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+@media (min-width: 1200px) { .nav-bar { display: none; } }
+
+.nav-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  gap: 16px;
+}
+.nav-bar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  color: var(--navy);
+  text-decoration: none;
+  font-size: 14px;
+}
+.nav-bar__brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+}
+.nav-bar__progress {
+  flex: 1;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  max-width: 240px;
+}
+.nav-bar__progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--pink), var(--purple));
+  transition: width 120ms linear;
+}
+.nav-bar__toggle {
+  appearance: none;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--navy);
+  cursor: pointer;
+}
+.nav-bar__menu {
+  display: none;
+  padding: 0 20px 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.nav-bar__menu.is-open { display: flex; }
+.nav-bar__menu a {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--bg-soft);
+  color: var(--navy);
+  font-weight: 700;
+  font-size: 13px;
+  text-decoration: none;
+}
+.nav-bar__menu a.is-active { background: var(--pink); color: #fff; }
+
+/* ==========================================================================
+   SECTION HEADERS
+   ========================================================================== */
+.section__head {
+  text-align: left;
+  max-width: 760px;
+  margin: 0 0 40px;
+}
+.section__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow-md);
+}
+
+/* ==========================================================================
+   CARDS & shared
+   ========================================================================== */
+.card {
+  background: var(--white);
+  border: 1px solid rgba(198,197,201,0.4);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.note {
+  display: flex;
+  gap: 12px;
+  padding: 16px 18px;
+  background: var(--cyan-light);
+  border-left: 4px solid var(--blue);
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  color: var(--text);
+  margin-top: 24px;
+}
+.note strong { color: var(--navy); }
+.note svg { flex-shrink: 0; }
+
+/* ==========================================================================
+   §1 — Frequency Builder (mock Product data panel)
+   ========================================================================== */
+.wc-admin {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  min-height: 420px;
+}
+@media (max-width: 720px) {
+  .wc-admin { grid-template-columns: 1fr; }
+}
+
+.wc-admin__head {
+  grid-column: 1 / -1;
+  padding: 14px 20px;
+  background: #f6f7f7;
+  border-bottom: 1px solid #dcdcde;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  color: #1d2327;
+}
+.wc-admin__head strong { color: var(--navy); font-weight: 800; }
+.wc-admin__head select {
+  padding: 4px 8px;
+  border: 1px solid #8c8f94;
+  border-radius: 3px;
+  background: #fff;
+  min-height: 28px;
+}
+
+.wc-admin__tabs {
+  background: #f0f0f1;
+  border-right: 1px solid #dcdcde;
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 720px) {
+  .wc-admin__tabs {
+    flex-direction: row;
+    overflow-x: auto;
+    border-right: none;
+    border-bottom: 1px solid #dcdcde;
+    padding: 0;
+  }
+}
+.wc-admin__tab {
+  padding: 10px 16px;
+  color: #2271b1;
+  font-size: 14px;
+  white-space: nowrap;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.wc-admin__tab.is-active {
+  background: #fff;
+  color: #1d2327;
+  font-weight: 700;
+  border-left: 2px solid var(--pink);
+  padding-left: 14px;
+}
+@media (max-width: 720px) {
+  .wc-admin__tab.is-active { border-left: none; border-bottom: 2px solid var(--pink); }
+}
+.wc-admin__tab svg { width: 14px; height: 14px; }
+
+.wc-admin__panel {
+  padding: 28px 24px;
+  background: #fff;
+}
+
+.fld {
+  display: grid;
+  grid-template-columns: 160px 1fr auto;
+  align-items: start;
+  gap: 16px;
+  padding: 12px 0;
+}
+.fld + .fld { border-top: 1px solid #f0f0f1; }
+.fld__label {
+  font-weight: 700;
+  color: #1d2327;
+  font-size: 14px;
+  padding-top: 10px;
+}
+.fld__help {
+  color: #646970;
+  font-size: 12px;
+  margin-top: 4px;
+}
+.fld__ctrl {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.fld__input,
+.fld__select {
+  padding: 8px 10px;
+  border: 1px solid #8c8f94;
+  border-radius: 4px;
+  background: #fff;
+  max-width: 360px;
+  min-height: 36px;
+}
+.fld__input--title { min-height: 56px; resize: vertical; font-family: inherit; }
+.fld__check {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--pink);
+  cursor: pointer;
+}
+
+@media (max-width: 620px) {
+  .fld { grid-template-columns: 1fr; }
+  .fld__label { padding-top: 0; }
+}
+
+.freq-list { display: flex; flex-direction: column; gap: 0; }
+.freq-row {
+  display: grid;
+  grid-template-columns: 20px 140px 1fr auto;
+  align-items: start;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid #f0f0f1;
+  animation: slideIn 280ms var(--ease);
+}
+.freq-row.is-removing {
+  animation: slideOut 200ms var(--ease) forwards;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideOut {
+  to { opacity: 0; transform: translateX(-16px); max-height: 0; padding: 0; margin: 0; }
+}
+
+@media (max-width: 620px) {
+  .freq-row { grid-template-columns: 1fr; }
+}
+
+.freq-row__grip {
+  width: 16px;
+  height: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 4px);
+  grid-template-rows: repeat(3, 4px);
+  gap: 3px;
+  color: #c6c5c9;
+  padding-top: 12px;
+}
+.freq-row__grip span {
+  display: block;
+  width: 4px;
+  height: 4px;
+  background: currentColor;
+  border-radius: 50%;
+}
+.freq-row__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.freq-row__pair {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.freq-row__pair .fld__select { max-width: 120px; }
+.freq-row__remove {
+  background: none;
+  border: none;
+  color: var(--danger);
+  font-weight: 700;
+  cursor: pointer;
+  padding-top: 12px;
+  white-space: nowrap;
+  font-size: 14px;
+}
+.freq-row__remove:hover { text-decoration: underline; }
+
+.freq-row__discount {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.freq-row__discount-in {
+  padding: 8px 10px;
+  border: 1px solid #8c8f94;
+  border-radius: 4px;
+  width: 100px;
+  min-height: 36px;
+}
+.freq-row__discount-suffix {
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.btn-wc {
+  padding: 10px 20px;
+  background: #fff;
+  color: var(--blue);
+  border: 1px solid var(--blue);
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 160ms ease;
+  margin-top: 20px;
+}
+.btn-wc:hover { background: #e9f2ff; }
+.btn-wc.is-pop { animation: pop 260ms var(--ease); }
+@keyframes pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* ==========================================================================
+   §2 — Related Orders table
+   ========================================================================== */
+.admin-crumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--navy);
+  color: rgba(255,255,255,0.85);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  flex-wrap: wrap;
+}
+.admin-crumb strong { color: #fff; }
+.admin-crumb svg { color: var(--pink); }
+.admin-crumb__sep { color: rgba(255,255,255,0.45); font-weight: 400; }
+
+.viewing-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--bg-soft);
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  flex-wrap: wrap;
+}
+.viewing-bar strong { color: var(--navy); }
+.viewing-bar select {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  font-weight: 700;
+  color: var(--navy);
+  cursor: pointer;
+}
+
+.rel-table-wrap {
+  overflow-x: auto;
+}
+.rel-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 620px;
+}
+.rel-table thead th {
+  padding: 14px 16px;
+  text-align: left;
+  background: #fff;
+  color: var(--navy);
+  font-weight: 800;
+  border-bottom: 2px solid var(--border);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.rel-table tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eee;
+}
+.rel-table tbody tr {
+  transition: background 160ms ease, opacity 240ms ease;
+  position: relative;
+}
+.rel-table tbody tr:hover { background: #fafaff; }
+.rel-table tbody tr.is-self {
+  opacity: 0.35;
+  background: #fafafa;
+}
+.rel-table tbody tr.is-self td:first-child::before {
+  content: '• Hidden on this page';
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 2px;
+}
+.rel-table .order-num {
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: none;
+}
+.order-product {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 3px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.order-product--new { color: var(--navy); }
+.order-product__note {
+  font-weight: 500;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-left: 2px;
+}
+.upgrade-flag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 8px;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  vertical-align: middle;
+  animation: upgradePulse 2.4s ease-in-out infinite;
+}
+@keyframes upgradePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,39,183,0.5); }
+  50%      { box-shadow: 0 0 0 6px rgba(255,39,183,0); }
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.pill--sub        { background: rgba(152,0,101,0.12); color: var(--purple); }
+.pill--parent     { background: rgba(6,3,73,0.08); color: var(--navy); }
+.pill--renewal    { background: var(--pink-light); color: #8b0060; }
+.pill--status     { background: var(--cyan-light); color: var(--blue); }
+.pill--active     { background: var(--status-active-bg); color: var(--status-active); }
+.pill--hold       { background: var(--status-hold-bg); color: var(--status-hold); }
+.pill--cancelled  { background: var(--status-cancel-bg); color: var(--status-cancel); }
+.pill--missing    { background: var(--status-missing-bg); color: var(--status-missing); }
+.pill--processing { background: #dde7ff; color: #1847a3; }
+
+.tip {
+  position: absolute;
+  z-index: 2;
+  background: var(--navy);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  max-width: 260px;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease;
+  line-height: 1.4;
+}
+.tip.is-show { opacity: 1; }
+.tip::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 24px;
+  border: 6px solid transparent;
+  border-bottom-color: var(--navy);
+  border-top: 0;
+}
+
+/* ==========================================================================
+   §3 — Subscriptions admin list + Status lifecycle
+   ========================================================================== */
+.subs-list {
+  overflow: hidden;
+}
+.subs-list__head {
+  padding: 14px 18px;
+  background: var(--navy);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.subs-list__head h4 {
+  color: #fff;
+  margin: 0;
+  font-size: 16px;
+}
+.subs-list__head-meta { font-size: 13px; opacity: 0.8; }
+.subs-list__table-wrap { overflow-x: auto; }
+.subs-list__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 760px;
+}
+.subs-list__table thead th {
+  padding: 14px 16px;
+  text-align: left;
+  background: #fafafb;
+  border-bottom: 1px solid var(--border);
+  color: var(--navy);
+  font-weight: 800;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.subs-list__table tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f0f0f2;
+  vertical-align: top;
+}
+.subs-list__table tbody tr:hover { background: #fafaff; }
+.subs-list__table .sub-num { color: var(--blue); font-weight: 800; text-decoration: none; }
+.subs-list__table .date-muted { color: var(--text-muted); }
+
+.hotspot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.hotspot__dot {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--pink);
+  color: #fff;
+  font-weight: 800;
+  font-size: 11px;
+  box-shadow: 0 0 0 4px rgba(255,39,183,0.2);
+  animation: pulse-marker 2s infinite;
+  cursor: pointer;
+  border: none;
+}
+@keyframes pulse-marker {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(255,39,183,0.2); }
+  50%      { box-shadow: 0 0 0 8px rgba(255,39,183,0); }
+}
+
+.hotspot__card {
+  position: absolute;
+  left: 32px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-6px);
+  min-width: 240px;
+  max-width: 280px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  box-shadow: var(--shadow-lg);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 220ms var(--ease);
+  z-index: 3;
+}
+.hotspot__card strong { color: var(--navy); }
+.hotspot.is-open .hotspot__card {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) translateX(0);
+}
+@media (max-width: 720px) {
+  .hotspot__card {
+    left: auto;
+    right: 0;
+    top: 120%;
+    transform: none;
+  }
+  .hotspot.is-open .hotspot__card { transform: none; }
+}
+
+/* Status card lifecycle */
+.status-card-wrap {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.status-pills {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.status-pills button {
+  appearance: none;
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--text);
+  transition: all 200ms var(--ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.status-pills button .dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: currentColor;
+}
+.status-pills button:hover { border-color: var(--navy); }
+.status-pills button.is-active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+
+.sub-card {
+  padding: 22px 24px;
+  border-left: 6px solid var(--status-active);
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  border-left-width: 6px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px 20px;
+  align-items: start;
+  transition: border-left-color 300ms var(--ease), background 300ms var(--ease);
+}
+.sub-card[data-state="on-hold"]   { border-left-color: var(--status-hold);   background: #fffcf3; }
+.sub-card[data-state="cancelled"] { border-left-color: var(--status-cancel); background: #fafafb; }
+.sub-card h4 { margin: 0 0 4px; font-size: 18px; }
+.sub-card__meta { color: var(--text-muted); font-size: 14px; }
+.sub-card__status .pill { font-size: 13px; padding: 6px 14px; }
+.sub-card__explainer {
+  grid-column: 1 / -1;
+  background: var(--bg-soft);
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--text);
+}
+.sub-card__explainer strong { color: var(--navy); }
+
+/* ==========================================================================
+   §4 — Upgrade Simulator
+   ========================================================================== */
+.upgrade-panel {
+  padding: 20px;
+  background: #f6f7f7;
+}
+
+.upgrade-guide {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(255,39,183,0.08), rgba(152,0,101,0.05));
+  border: 1px solid rgba(255,39,183,0.25);
+  border-radius: var(--radius-md);
+  margin-bottom: 18px;
+  font-size: 14px;
+  color: var(--text);
+  flex-wrap: wrap;
+}
+.upgrade-guide__num {
+  flex: 0 0 auto;
+  padding: 4px 12px;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff;
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+.upgrade-guide__text strong { color: var(--navy); }
+.upgrade-guide__text em { color: var(--navy); font-style: normal; background: rgba(255,39,183,0.12); padding: 1px 6px; border-radius: 4px; }
+
+.upgrade-items {
+  background: #fff;
+  border: 1px solid #dcdcde;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.upgrade-items:empty {
+  padding: 32px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+.upgrade-items:empty::after {
+  content: 'No items yet — click “+ Add item(s)” below.';
+  font-style: italic;
+}
+
+.upg-item {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 18px;
+  padding: 16px 18px;
+  border-bottom: 1px solid #f0f0f1;
+  background: #fff;
+  align-items: start;
+  overflow: hidden;
+  transition: opacity 220ms ease, max-height 240ms ease, padding 220ms ease, border-width 220ms ease;
+  max-height: 200px;
+}
+.upg-item:last-child { border-bottom: 0; }
+.upg-item.is-removing {
+  opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-bottom-width: 0;
+}
+.upg-item.is-new {
+  animation: upgItemIn 360ms var(--ease);
+}
+@keyframes upgItemIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.upg-item__thumb {
+  width: 56px; height: 56px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #eef1f5, #dadfe5);
+  display: grid;
+  place-items: center;
+  color: var(--blue);
+  border: 1px solid #d6d8dc;
+}
+.upg-item__thumb svg { opacity: 0.6; }
+.upg-item__body { min-width: 0; }
+.upg-item__title {
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 6px;
+}
+.upg-item__meta {
+  font-size: 12px;
+  color: var(--text);
+  display: grid;
+  gap: 3px;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.upg-item__meta strong { font-weight: 700; color: #1d2327; }
+.upg-item__price { font-size: 13px; }
+.upg-item__price s { color: var(--text-muted); margin-right: 4px; }
+.upg-item__price strong { color: var(--danger); font-weight: 800; }
+
+.upg-item__side {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 13px;
+  color: var(--text);
+  padding-top: 4px;
+}
+.upg-item__side .upg-item__line { color: var(--text-muted); }
+.upg-item__side .upg-item__qty  { color: var(--text-muted); }
+.upg-item__side .upg-item__total { font-weight: 800; color: var(--navy); min-width: 64px; text-align: right; }
+
+@media (max-width: 720px) {
+  .upg-item { grid-template-columns: 52px 1fr; }
+  .upg-item__side { grid-column: 1 / -1; justify-content: space-between; }
+}
+
+.upg-remove {
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  transition: background 160ms ease, color 160ms ease, transform 160ms ease, border-color 160ms ease;
+  position: relative;
+}
+.upg-remove:hover {
+  background: var(--danger);
+  color: #fff;
+  border-color: var(--danger);
+  transform: scale(1.06);
+}
+.is-hint {
+  box-shadow: 0 0 0 3px rgba(255,39,183,0.35);
+  animation: hintPulse 1.8s ease-in-out infinite;
+}
+@keyframes hintPulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(255,39,183,0.35); }
+  50%      { box-shadow: 0 0 0 8px rgba(255,39,183,0); }
+}
+
+.upgrade-picker {
+  position: relative;
+  margin-top: 16px;
+  padding: 16px 18px;
+  background: #fff;
+  border: 2px solid var(--blue);
+  border-radius: 8px;
+  animation: pickerSlide 240ms var(--ease);
+}
+@keyframes pickerSlide {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.upgrade-picker__title {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+.upgrade-picker__option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+  text-align: left;
+  font-family: inherit;
+}
+.upgrade-picker__option:hover {
+  background: var(--cyan-light);
+  border-color: var(--blue);
+  transform: translateY(-1px);
+}
+.upgrade-picker__option-left strong {
+  color: var(--blue);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 2px;
+  font-size: 14px;
+}
+.upgrade-picker__option-left span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.upgrade-picker__option-price {
+  color: var(--danger);
+  font-weight: 800;
+  font-size: 15px;
+  white-space: nowrap;
+}
+.upgrade-picker__close {
+  position: absolute;
+  top: 6px; right: 8px;
+  width: 26px; height: 26px;
+  display: grid; place-items: center;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+}
+.upgrade-picker__close:hover { color: var(--navy); }
+
+.upgrade-bar {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  padding: 20px;
+  margin-top: 16px;
+  background: #fff;
+  border: 1px solid #dcdcde;
+  border-radius: 6px;
+  align-items: center;
+}
+@media (max-width: 720px) {
+  .upgrade-bar { grid-template-columns: 1fr; }
+}
+.upgrade-bar__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.upgrade-bar__totals {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+@media (max-width: 720px) {
+  .upgrade-bar__totals { justify-content: flex-start; }
+}
+.upgrade-total {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.upgrade-total strong {
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 800;
+}
+.upgrade-total--grand strong {
+  font-size: 18px;
+  transition: color 300ms ease, transform 300ms ease;
+  display: inline-block;
+}
+.upgrade-total--grand.is-updated strong {
+  color: var(--pink);
+  transform: scale(1.08);
+}
+
+.btn-wc--primary {
+  background: var(--blue);
+  color: #fff;
+  border-color: var(--blue);
+}
+.btn-wc--primary:hover { background: #003d8f; }
+.btn-wc:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #fff;
+}
+.btn-wc--ghost { background: #fff; color: var(--text-muted); border-color: var(--border); }
+
+.upgrade-done {
+  text-align: center;
+  padding: 36px 24px;
+  background: linear-gradient(135deg, rgba(74,158,83,0.08), rgba(230,247,254,0.6));
+  border-radius: var(--radius-md);
+  margin-top: 16px;
+  border: 1px solid rgba(74,158,83,0.3);
+  animation: fadeIn 320ms var(--ease);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.upgrade-done svg { color: var(--status-active); margin: 0 auto 12px; display: block; }
+.upgrade-done h4 { margin: 0 0 8px; color: var(--status-active); }
+.upgrade-done p {
+  color: var(--text);
+  margin: 0 auto 18px;
+  max-width: 460px;
+  font-size: 14px;
+}
+.upgrade-done p strong { color: var(--navy); }
+.upgrade-done p em { font-style: normal; background: rgba(6,3,73,0.06); padding: 1px 6px; border-radius: 4px; }
+
+/* ==========================================================================
+   §5 — Reminder Timing timeline
+   ========================================================================== */
+.timeline {
+  margin-top: 8px;
+  padding: 32px 24px 24px;
+}
+.timeline__bar {
+  position: relative;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--pink-light), var(--cyan-light));
+  margin: 60px 0 80px;
+}
+.timeline__marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.timeline__marker-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--navy);
+  border: 4px solid #fff;
+  box-shadow: 0 0 0 2px var(--navy);
+}
+.timeline__marker--today .timeline__marker-dot  { background: var(--text-muted); box-shadow: 0 0 0 2px var(--text-muted); }
+.timeline__marker--email .timeline__marker-dot  { background: var(--pink); box-shadow: 0 0 0 2px var(--pink); transition: left 200ms var(--ease); }
+.timeline__marker--renew .timeline__marker-dot  { background: var(--purple); box-shadow: 0 0 0 2px var(--purple); }
+
+.timeline__marker-label {
+  position: absolute;
+  bottom: 100%;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.timeline__marker-date {
+  position: absolute;
+  top: 100%;
+  margin-top: 10px;
+  white-space: nowrap;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.timeline__marker--email .timeline__marker-label,
+.timeline__marker--email .timeline__marker-date { color: var(--pink); font-weight: 800; }
+
+/* Desktop clarity fix: anchor outer labels, pill-ify email marker below the bar */
+.timeline__bar {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+.timeline__marker--today .timeline__marker-date,
+.timeline__marker--renew .timeline__marker-date { display: none; }
+
+.timeline__marker--today { transform: translate(0, -50%); }
+.timeline__marker--today .timeline__marker-label {
+  left: 0;
+  right: auto;
+  transform: none;
+  text-align: left;
+}
+
+.timeline__marker--renew { transform: translate(-100%, -50%); }
+.timeline__marker--renew .timeline__marker-label {
+  right: 0;
+  left: auto;
+  transform: none;
+  text-align: right;
+}
+
+.timeline__marker--email .timeline__marker-label { display: none; }
+.timeline__marker--email .timeline__marker-date {
+  top: 100%;
+  bottom: auto;
+  margin-top: 14px;
+  margin-bottom: 0;
+  background: var(--pink);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 10px rgba(255, 39, 183, 0.4);
+}
+
+/* Mobile-only vertical timeline (hidden on desktop) */
+.timeline__stack {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  display: none;
+}
+.timeline__stack-row {
+  display: grid;
+  grid-template-columns: 22px auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  position: relative;
+}
+.timeline__stack-row + .timeline__stack-row::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: -10px;
+  height: 20px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--border), var(--pink));
+}
+.timeline__stack-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px var(--text-muted);
+  margin-left: 2px;
+}
+.timeline__stack-dot--today { background: var(--text-muted); box-shadow: 0 0 0 2px var(--text-muted); }
+.timeline__stack-dot--email { background: var(--pink); box-shadow: 0 0 0 2px var(--pink); animation: pulse 2s infinite; }
+.timeline__stack-dot--renew { background: var(--purple); box-shadow: 0 0 0 2px var(--purple); }
+.timeline__stack-day {
+  font-weight: 800;
+  color: var(--navy);
+  font-size: 14px;
+  white-space: nowrap;
+}
+.timeline__stack-row--email .timeline__stack-day { color: var(--pink); }
+.timeline__stack-desc {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+@media (max-width: 720px) {
+  .timeline__bar { display: none; }
+  .timeline__stack { display: block; }
+}
+
+.timeline__slider-wrap {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  margin-top: 20px;
+  padding-top: 20px;
+}
+@media (max-width: 620px) {
+  .timeline__slider-wrap { grid-template-columns: 1fr; }
+}
+.timeline__slider-label {
+  font-weight: 800;
+  color: var(--navy);
+}
+.timeline__slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--pink), var(--purple));
+  outline: none;
+}
+.timeline__slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 3px solid var(--pink);
+  box-shadow: var(--shadow-md);
+  cursor: grab;
+}
+.timeline__slider::-moz-range-thumb {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 3px solid var(--pink);
+  box-shadow: var(--shadow-md);
+  cursor: grab;
+}
+
+.timeline__readout {
+  min-width: 160px;
+  text-align: right;
+  font-weight: 800;
+  color: var(--navy);
+  font-size: 18px;
+}
+.timeline__readout small {
+  display: block;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.timeline__effects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-top: 28px;
+}
+.timeline__effect {
+  padding: 16px 18px;
+  background: var(--bg-soft);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  font-size: 14px;
+  display: flex;
+  gap: 12px;
+}
+.timeline__effect-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff;
+}
+.timeline__effect strong { color: var(--navy); }
+
+/* ==========================================================================
+   §5 — Renewal journey
+   ========================================================================== */
+.scenario-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background: var(--bg-soft);
+  border-radius: 999px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  border: 1px solid var(--border);
+}
+@media (max-width: 620px) {
+  .scenario-tabs {
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    padding: 6px;
+    gap: 4px;
+  }
+  .scenario-tab {
+    justify-content: flex-start;
+    width: 100%;
+    padding: 12px 16px;
+  }
+}
+.scenario-tab {
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--navy);
+  transition: all 200ms var(--ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.scenario-tab:hover { background: rgba(255,39,183,0.08); }
+.scenario-tab.is-active {
+  background: var(--pink);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+}
+.scenario-tab__icon {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(6,3,73,0.08);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+}
+.scenario-tab.is-active .scenario-tab__icon {
+  background: rgba(255,255,255,0.22);
+}
+
+.flow {
+  position: relative;
+  padding: 40px 20px 20px;
+  min-height: 360px;
+}
+.flow__headline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.flow__headline h4 {
+  margin: 0;
+  font-size: 20px;
+}
+.flow__steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+@media (min-width: 860px) {
+  /* Force a single row when the scenario has 5 cards */
+  .flow__steps { grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+}
+.flow__step {
+  padding: 14px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: stepIn 400ms var(--ease) forwards;
+  font-size: 13px;
+  min-width: 0;
+}
+.flow__step h5 { font-size: 13px; line-height: 1.3; }
+.flow__step p  { font-size: 12.5px; line-height: 1.45; }
+.flow__step-num {
+  display: inline-grid;
+  place-items: center;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff;
+  font-weight: 800;
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+.flow__step h5 {
+  margin: 0 0 6px;
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 800;
+}
+.flow__step p { margin: 0; color: var(--text-muted); font-size: 13px; line-height: 1.4; }
+.flow__step--warn { border-color: rgba(192,0,3,0.3); background: #fff6f6; }
+.flow__step--warn h5 { color: var(--danger); }
+.flow__step--good { border-color: rgba(74,158,83,0.3); background: #f6fbf6; }
+.flow__step--good h5 { color: var(--status-active); }
+
+.flow__step .pill { margin-top: 6px; }
+
+@keyframes stepIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.flow__steps .flow__step:nth-child(1) { animation-delay: 0ms; }
+.flow__steps .flow__step:nth-child(2) { animation-delay: 120ms; }
+.flow__steps .flow__step:nth-child(3) { animation-delay: 240ms; }
+.flow__steps .flow__step:nth-child(4) { animation-delay: 360ms; }
+.flow__steps .flow__step:nth-child(5) { animation-delay: 480ms; }
+.flow__steps .flow__step:nth-child(6) { animation-delay: 600ms; }
+
+.flow__callout {
+  margin-top: 24px;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, rgba(255,39,183,0.08), rgba(152,0,101,0.06));
+  border: 1px solid rgba(255,39,183,0.2);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--text);
+  display: flex;
+  gap: 12px;
+}
+.flow__callout strong { color: var(--navy); }
+
+/* Missing Consultation order-row example */
+.mc-example {
+  margin-top: 24px;
+  padding: 18px 20px;
+  border: 1px solid rgba(192,0,3,0.25);
+  background: #fffafa;
+  border-radius: var(--radius-md);
+}
+.mc-example__label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--danger);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+.mc-order {
+  display: grid;
+  grid-template-columns: 20px 1.5fr 1fr auto auto auto;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.mc-order input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--navy);
+  cursor: not-allowed;
+}
+.mc-order__id { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.mc-order__id .order-num { font-weight: 800; }
+.mc-order__name { font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.02em; font-size: 12.5px; }
+.mc-order__preview { color: var(--text-muted); opacity: 0.7; }
+.mc-order__date { color: var(--text-muted); }
+.mc-order__total { font-weight: 700; color: var(--navy); white-space: nowrap; }
+.mc-order__actions { display: flex; gap: 6px; }
+.mc-order__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  background: rgba(6,3,73,0.05);
+  color: var(--blue);
+  font-size: 14px;
+  border: 1px solid rgba(6,3,73,0.08);
+}
+.pill--lg { font-size: 13px; padding: 6px 14px; }
+
+@media (max-width: 720px) {
+  .mc-order {
+    grid-template-columns: 1fr auto;
+    row-gap: 10px;
+  }
+  .mc-order input[type="checkbox"],
+  .mc-order__actions { display: none; }
+  .mc-order__id { grid-column: 1 / -1; }
+  .mc-order__date { grid-column: 1; }
+  .mc-order__total { grid-column: 2; text-align: right; }
+  .pill--lg { grid-column: 1 / -1; justify-self: start; }
+}
+
+/* ==========================================================================
+   CLOSE
+   ========================================================================== */
+.takeaways {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+.takeaway {
+  padding: 22px;
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.takeaway__icon {
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff;
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+}
+.takeaway h4 { margin: 0 0 8px; font-size: 17px; }
+.takeaway p { margin: 0; color: var(--text-muted); font-size: 14px; }
+
+/* Close panel (gradient container that wraps head + takeaways) */
+.close-panel {
+  padding: 56px 48px;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(600px 300px at 85% 0%, rgba(255,39,183,0.22), transparent 65%),
+    radial-gradient(500px 250px at 0% 100%, rgba(230,247,254,0.14), transparent 60%),
+    linear-gradient(135deg, var(--navy) 0%, var(--purple) 100%);
+  box-shadow: var(--shadow-lg);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.close-panel__head { margin-bottom: 32px; }
+.close-panel h2, .close-panel h3, .close-panel h4 { color: #fff; }
+.close-panel h4 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--pink), var(--pink-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lead--light { color: rgba(255,255,255,0.8); }
+.eyebrow--light {
+  background: rgba(255,255,255,0.16);
+  color: #fff;
+  backdrop-filter: blur(6px);
+}
+
+.takeaway--light {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: none;
+  backdrop-filter: blur(6px);
+  transition: transform 220ms var(--ease), background 220ms var(--ease);
+}
+.takeaway--light:hover {
+  transform: translateY(-3px);
+  background: rgba(255,255,255,0.11);
+}
+.takeaway--light h4 { color: #fff; }
+.takeaway--light p  { color: rgba(255,255,255,0.78); }
+.takeaway--light p strong { color: #fff; }
+.takeaway--light .takeaway__icon {
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+@media (max-width: 620px) {
+  .close-panel { padding: 36px 24px; }
+}
+
+.help-card {
+  margin-top: 40px;
+  padding: 32px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--navy) 0%, var(--purple) 100%);
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+  box-shadow: var(--shadow-lg);
+}
+@media (max-width: 620px) {
+  .help-card { grid-template-columns: 1fr; }
+}
+.help-card h3 { color: #fff; margin: 0 0 6px; }
+.help-card p { color: rgba(255,255,255,0.85); margin: 0; }
+.help-card__btn {
+  background: var(--pink);
+  color: #fff;
+}
+
+.footer {
+  padding: 32px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-soft);
+}
+.footer strong { color: var(--navy); }
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ==========================================================================
+     HERO
+     ========================================================================== -->
+<header class="hero" role="banner">
+  <div class="hero__inner">
+    <div class="hero__topbar">
+      <a href="#top" class="hero__logo" aria-label="The Care Pharmacy">
+        <span class="hero__logo-mark">TC</span>
+        <span>The Care Pharmacy</span>
+      </a>
+      <span class="hero__badge">
+        <span class="hero__badge-dot" aria-hidden="true"></span>
+        New feature — Subscriptions module
+      </span>
+    </div>
+
+    <span class="hero__eyebrow">A guide for your team</span>
+    <h1>Subscriptions, made <em>simple</em>.</h1>
+    <p class="hero__sub">
+      Everything you need to set up, run, and troubleshoot subscription products on your store.
+      Six sections, a handful of live demos, no faff.
+    </p>
+
+    <div class="hero__cta-row">
+      <a href="#s1" class="btn btn--primary">
+        Start the tour
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="#close" class="btn btn--ghost">Skip to summary</a>
+    </div>
+
+    <div class="hero__stats" role="list">
+      <div class="hero__stat" role="listitem">
+        <div class="hero__stat-num">6</div>
+        <div class="hero__stat-label">sections</div>
+      </div>
+      <div class="hero__stat" role="listitem">
+        <div class="hero__stat-num">~8</div>
+        <div class="hero__stat-label">minute read</div>
+      </div>
+      <div class="hero__stat" role="listitem">
+        <div class="hero__stat-num">100%</div>
+        <div class="hero__stat-label">interactive</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__scroll-hint" aria-hidden="true">Scroll</div>
+
+  <svg class="hero__wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 40 C 240 80, 480 0, 720 40 S 1200 80, 1440 40 L1440 80 L0 80 Z" fill="#ffffff"/>
+  </svg>
+</header>
+
+<!-- ==========================================================================
+     MOBILE NAV BAR
+     ========================================================================== -->
+<nav class="nav-bar" aria-label="Section navigation (mobile)">
+  <div class="nav-bar__inner">
+    <a href="#top" class="nav-bar__brand">
+      <span class="nav-bar__brand-mark"></span>
+      <span>Subscriptions guide</span>
+    </a>
+    <div class="nav-bar__progress" aria-hidden="true">
+      <div class="nav-bar__progress-fill" id="progressFillMobile"></div>
+    </div>
+    <button class="nav-bar__toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">Menu</button>
+  </div>
+  <div class="nav-bar__menu" id="navMenu">
+    <a href="#s1">1. Set up</a>
+    <a href="#s2">2. Orders</a>
+    <a href="#s3">3. Statuses</a>
+    <a href="#s4">4. Upgrading</a>
+    <a href="#s5">5. Reminders</a>
+    <a href="#s6">6. Renewals</a>
+  </div>
+</nav>
+
+<!-- ==========================================================================
+     STICKY NAV RAIL (desktop)
+     ========================================================================== -->
+<aside class="nav-rail" aria-label="Section navigation">
+  <div class="nav-rail__track">
+    <div class="nav-rail__line" aria-hidden="true">
+      <div class="nav-rail__line-fill" id="railFill"></div>
+    </div>
+    <a class="nav-rail__dot" href="#s1" data-target="s1">
+      <span class="nav-rail__label">1. Set up a product</span>
+    </a>
+    <a class="nav-rail__dot" href="#s2" data-target="s2">
+      <span class="nav-rail__label">2. Ordering</span>
+    </a>
+    <a class="nav-rail__dot" href="#s3" data-target="s3">
+      <span class="nav-rail__label">3. Statuses</span>
+    </a>
+    <a class="nav-rail__dot" href="#s4" data-target="s4">
+      <span class="nav-rail__label">4. Upgrading</span>
+    </a>
+    <a class="nav-rail__dot" href="#s5" data-target="s5">
+      <span class="nav-rail__label">5. Reminder timing</span>
+    </a>
+    <a class="nav-rail__dot" href="#s6" data-target="s6">
+      <span class="nav-rail__label">6. Renewals</span>
+    </a>
+  </div>
+</aside>
+
+<main id="top">
+
+<!-- ==========================================================================
+     §1 — SET UP A SUBSCRIPTION PRODUCT
+     ========================================================================== -->
+<section class="section" id="s1" aria-labelledby="s1-title">
+  <div class="container">
+    <div class="section__head">
+      <div class="section__num">01</div>
+      <span class="eyebrow">Setup</span>
+      <h2 id="s1-title">Setting up a subscription product</h2>
+      <p class="lead">
+        Open any product, head to <strong>Product data → Subscriptions</strong>, and build the
+        frequency options your patients can choose from. Add a discount percentage (or flat price)
+        to reward longer commitments. Try it live below.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="wc-admin" aria-label="Product data — Subscriptions tab (interactive demo)">
+        <div class="wc-admin__head">
+          <strong>Product data —</strong>
+          <select aria-label="Product type">
+            <option>Variable product</option>
+            <option>Simple product</option>
+          </select>
+        </div>
+        <nav class="wc-admin__tabs" aria-label="Product data tabs">
+          <button class="wc-admin__tab" type="button">General</button>
+          <button class="wc-admin__tab" type="button">Inventory</button>
+          <button class="wc-admin__tab" type="button">Shipping</button>
+          <button class="wc-admin__tab" type="button">Linked</button>
+          <button class="wc-admin__tab" type="button">Attributes</button>
+          <button class="wc-admin__tab" type="button">Variations</button>
+          <button class="wc-admin__tab" type="button">Advanced</button>
+          <button class="wc-admin__tab is-active" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15.5-6.3L21 3m0 0v6h-6"/><path d="M21 12a9 9 0 0 1-15.5 6.3L3 21m0 0v-6h6"/></svg>
+            Subscriptions
+          </button>
+        </nav>
+        <div class="wc-admin__panel">
+          <div class="fld">
+            <label class="fld__label" for="title">Title</label>
+            <div class="fld__ctrl">
+              <textarea class="fld__input fld__input--title" id="title" placeholder='e.g. "Choose frequency"'></textarea>
+            </div>
+            <span></span>
+          </div>
+          <div class="fld">
+            <label class="fld__label" for="valDiscount">Use value discount</label>
+            <div class="fld__ctrl">
+              <input type="checkbox" id="valDiscount" class="fld__check" />
+              <span class="fld__help">Switch between percentage and flat price discount.</span>
+            </div>
+            <span></span>
+          </div>
+
+          <div class="freq-list" id="freqList">
+            <!-- rows injected by JS; one seeded on load -->
+          </div>
+
+          <button class="btn-wc" id="addFreq" type="button">+ Add Frequency</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      <div><strong>Tip.</strong> The discount you set here is applied to every renewal order — patients only see the discounted price at checkout, with no extra admin on your end.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     §2 — ORDERING SUBSCRIPTION PRODUCTS
+     ========================================================================== -->
+<section class="section section--alt" id="s2" aria-labelledby="s2-title">
+  <div class="container">
+    <div class="section__head">
+      <div class="section__num">02</div>
+      <span class="eyebrow">Orders</span>
+      <h2 id="s2-title">Ordering subscription products</h2>
+      <p class="lead">
+        Patients check out exactly the same way on the front end. The new bit is on <strong>your side</strong> —
+        open the first order in the admin and scroll to the bottom. You'll find a <strong>Related Orders</strong>
+        block that connects the dots between the subscription itself, the parent order, and every renewal.
+        Hover a row to see what each relationship means.
+      </p>
+    </div>
+
+    <div class="card" id="relCard">
+      <div class="admin-crumb" aria-label="Location in the admin">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2V10z"/></svg>
+        <span>WooCommerce admin</span>
+        <span class="admin-crumb__sep">›</span>
+        <span>Orders</span>
+        <span class="admin-crumb__sep">›</span>
+        <span>#106994</span>
+        <span class="admin-crumb__sep">›</span>
+        <strong>Related Orders</strong>
+      </div>
+      <div class="viewing-bar">
+        <span><strong>Viewing:</strong></span>
+        <select id="viewingSelect" aria-label="Simulate viewing from">
+          <option value="parent">Parent Order</option>
+          <option value="subscription">Subscription</option>
+          <option value="renewal">Renewal Order</option>
+        </select>
+        <span style="color:var(--text-muted); font-size:13px;">
+          Switch view to see how the current page's own row hides itself.
+        </span>
+      </div>
+      <div class="rel-table-wrap">
+        <table class="rel-table" id="relTable">
+          <thead>
+            <tr>
+              <th scope="col">Order #</th>
+              <th scope="col">Relationship</th>
+              <th scope="col">Date</th>
+              <th scope="col">Status</th>
+              <th scope="col" style="text-align:right;">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-rel="renewal" data-tip="Renewal Order — cloned from the subscription's current state. Dosage was just upgraded to 5mg, so this renewal reflects the new price.">
+              <td>
+                <a href="#" class="order-num">#116118</a>
+                <div class="order-product order-product--new">Mounjaro 5mg <span class="upgrade-flag">↑ upgraded</span></div>
+              </td>
+              <td><span class="pill pill--renewal">Renewal Order</span></td>
+              <td>Today</td>
+              <td><span class="pill pill--active">Completed</span></td>
+              <td style="text-align:right;">£175.74</td>
+            </tr>
+            <tr data-rel="renewal" data-tip="Renewal Order — earlier renewals show the pre-upgrade dosage and price.">
+              <td>
+                <a href="#" class="order-num">#112451</a>
+                <div class="order-product">Mounjaro 2.5mg</div>
+              </td>
+              <td><span class="pill pill--renewal">Renewal Order</span></td>
+              <td>30 days ago</td>
+              <td><span class="pill pill--active">Completed</span></td>
+              <td style="text-align:right;">£95.94</td>
+            </tr>
+            <tr data-rel="renewal" data-tip="Renewal Order — Renewal orders clone from the Subscription at the time they fire.">
+              <td>
+                <a href="#" class="order-num">#108720</a>
+                <div class="order-product">Mounjaro 2.5mg</div>
+              </td>
+              <td><span class="pill pill--renewal">Renewal Order</span></td>
+              <td>60 days ago</td>
+              <td><span class="pill pill--active">Completed</span></td>
+              <td style="text-align:right;">£95.94</td>
+            </tr>
+            <tr data-rel="subscription" data-tip="Subscription — the master record. Edit here to change next renewal's dosage or price.">
+              <td>
+                <a href="#" class="order-num">#106995</a>
+                <div class="order-product">Mounjaro 5mg <span class="order-product__note">(current)</span></div>
+              </td>
+              <td><span class="pill pill--sub">Subscription</span></td>
+              <td>90 days ago</td>
+              <td><span class="pill pill--active">Active</span></td>
+              <td style="text-align:right;">£175.74 / month</td>
+            </tr>
+            <tr data-rel="parent" data-tip="Parent Order — the first actual order the patient placed.">
+              <td>
+                <a href="#" class="order-num">#106994</a>
+                <div class="order-product">Mounjaro 2.5mg</div>
+              </td>
+              <td><span class="pill pill--parent">Parent Order</span></td>
+              <td>90 days ago</td>
+              <td><span class="pill pill--active">Completed</span></td>
+              <td style="text-align:right;">£142.49</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="note">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      <div><strong>Heads up.</strong> If you don't see the <em>Subscription</em> or <em>Parent</em> row here, it's because you're already on that page — WooCommerce hides self-references to keep things tidy. Switch the dropdown above to see this in action.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     §3 — SUBSCRIPTION STATUSES
+     ========================================================================== -->
+<section class="section" id="s3" aria-labelledby="s3-title">
+  <div class="container">
+    <div class="section__head">
+      <div class="section__num">03</div>
+      <span class="eyebrow">Statuses</span>
+      <h2 id="s3-title">The Subscriptions page &amp; its three statuses</h2>
+      <p class="lead">
+        Parent and renewal orders live on your usual <strong>Orders</strong> screen. Subscriptions
+        themselves live under <strong>WooCommerce → Subscriptions</strong>. This is the master record —
+        change a dosage here and the next renewal picks up the new product automatically.
+      </p>
+    </div>
+
+    <div class="card subs-list" aria-label="WooCommerce Subscriptions admin list (recreated)">
+      <div class="subs-list__head">
+        <h4>WooCommerce → Subscriptions</h4>
+        <span class="subs-list__head-meta">6 subscriptions</span>
+      </div>
+      <div class="subs-list__table-wrap">
+        <table class="subs-list__table">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Subscription</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Next payment</th>
+              <th>Last order</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="hotspot">
+                  <span class="pill pill--active">Active</span>
+                  <button class="hotspot__dot" aria-label="Hotspot 1 — Status" data-hotspot="1">1</button>
+                  <span class="hotspot__card" role="tooltip">
+                    <strong>Status column.</strong><br/>
+                    <em>Active</em> will keep renewing. <em>On hold</em> is waiting for a reorder consultation or a failed payment. <em>Cancelled</em> is the end of the line.
+                  </span>
+                </span>
+              </td>
+              <td>
+                <span class="hotspot">
+                  <a href="#" class="sub-num">#106995</a>
+                  <button class="hotspot__dot" aria-label="Hotspot 2 — Subscription number" data-hotspot="2">2</button>
+                  <span class="hotspot__card" role="tooltip">
+                    <strong>This is the clone source.</strong><br/>
+                    Editing this subscription (not its orders) is how you change next month's dosage. The new product attaches to the next renewal with the updated price.
+                  </span>
+                </span>
+                <div class="date-muted" style="font-size:12px; margin-top:2px;">for Sarah Parker</div>
+              </td>
+              <td>Mounjaro 5mg</td>
+              <td>£142.49 / month</td>
+              <td>
+                <span class="hotspot">
+                  In 5 days
+                  <button class="hotspot__dot" aria-label="Hotspot 3 — Next payment" data-hotspot="3">3</button>
+                  <span class="hotspot__card" role="tooltip">
+                    <strong>Renewals fire from here.</strong><br/>
+                    On this date the renewal order is created automatically — with the consultation attached if the patient filled the reorder form in time.
+                  </span>
+                </span>
+              </td>
+              <td class="date-muted">25 days ago</td>
+            </tr>
+            <tr>
+              <td><span class="pill pill--hold">On hold</span></td>
+              <td><a href="#" class="sub-num">#105842</a><div class="date-muted" style="font-size:12px;">for James Whitfield</div></td>
+              <td>Mounjaro 2.5mg</td>
+              <td>£95.94 / month</td>
+              <td>—</td>
+              <td class="date-muted">32 days ago</td>
+            </tr>
+            <tr>
+              <td><span class="pill pill--hold">On hold</span></td>
+              <td><a href="#" class="sub-num">#104621</a><div class="date-muted" style="font-size:12px;">for Priya Sharma</div></td>
+              <td>Mounjaro 2.5mg</td>
+              <td>£95.94 / month</td>
+              <td>—</td>
+              <td class="date-muted">34 days ago</td>
+            </tr>
+            <tr>
+              <td><span class="pill pill--cancelled">Cancelled</span></td>
+              <td><a href="#" class="sub-num">#103105</a><div class="date-muted" style="font-size:12px;">for Michael O'Connor</div></td>
+              <td>Mounjaro 2.5mg</td>
+              <td>£95.94 / month</td>
+              <td>—</td>
+              <td class="date-muted">64 days ago</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="status-card-wrap">
+      <h3 style="margin-top: 8px;">See how each status looks</h3>
+      <p style="color: var(--text-muted); margin: -8px 0 8px;">
+        Click a status to preview how a subscription appears — and what it means for your patient.
+      </p>
+      <div class="status-pills" role="tablist" aria-label="Status preview">
+        <button class="is-active" data-state="active" role="tab" aria-selected="true">
+          <span class="dot" style="color: var(--status-active);"></span> Active
+        </button>
+        <button data-state="on-hold" role="tab" aria-selected="false">
+          <span class="dot" style="color: var(--status-hold);"></span> On hold
+        </button>
+        <button data-state="cancelled" role="tab" aria-selected="false">
+          <span class="dot" style="color: var(--status-cancel);"></span> Cancelled
+        </button>
+      </div>
+      <div class="sub-card" id="subCard" data-state="active" role="tabpanel" aria-live="polite">
+        <div>
+          <h4>Subscription #106995</h4>
+          <div class="sub-card__meta">for Sarah Parker · Mounjaro 5mg · £142.49 / month</div>
+        </div>
+        <div class="sub-card__status">
+          <span class="pill pill--active" id="subCardBadge">Active</span>
+        </div>
+        <div class="sub-card__explainer" id="subCardExplainer">
+          <strong>Active.</strong> The subscription will keep renewing on its schedule. Patient has a valid payment method and a consultation on file.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     §4 — UPGRADING A SUBSCRIPTION
+     ========================================================================== -->
+<section class="section section--alt" id="s4" aria-labelledby="s4-title">
+  <div class="container">
+    <div class="section__head">
+      <div class="section__num">04</div>
+      <span class="eyebrow">Upgrade</span>
+      <h2 id="s4-title">Upgrading a patient's dosage</h2>
+      <p class="lead">
+        When a dosage needs to change, you edit the <strong>Subscription itself</strong> — not an
+        individual order. Remove the old variation, add the new one, hit <em>Recalculate</em>, then
+        <em>Update</em>. Next renewal clones from the new state, at the new price. (That's exactly
+        how order <strong>#116118</strong> back in Step 2 ended up at £175.74.)
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="admin-crumb" aria-label="Location in the admin">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2V10z"/></svg>
+        <span>WooCommerce admin</span>
+        <span class="admin-crumb__sep">›</span>
+        <span>Subscriptions</span>
+        <span class="admin-crumb__sep">›</span>
+        <span>#106995</span>
+        <span class="admin-crumb__sep">›</span>
+        <strong>Edit items</strong>
+      </div>
+
+      <div class="upgrade-panel">
+        <div class="upgrade-guide" id="upgradeGuide" aria-live="polite"></div>
+
+        <div class="upgrade-items" id="upgradeItems"></div>
+
+        <div class="upgrade-picker" id="upgradePicker" hidden>
+          <div class="upgrade-picker__title">Select a variation</div>
+          <button type="button" class="upgrade-picker__option" data-variation="5mg">
+            <div class="upgrade-picker__option-left">
+              <strong>Mounjaro Weight Loss Injection — 5mg</strong>
+              <span>SKU: 111 · Variation ID: 7518 · Strength 5mg</span>
+            </div>
+            <span class="upgrade-picker__option-price">£175.74</span>
+          </button>
+          <button type="button" class="upgrade-picker__close" id="upgradePickerClose" aria-label="Close picker">×</button>
+        </div>
+
+        <div class="upgrade-bar">
+          <div class="upgrade-bar__actions">
+            <button type="button" class="btn-wc" id="upgradeAdd">+ Add item(s)</button>
+            <button type="button" class="btn-wc btn-wc--ghost" disabled>Apply coupon</button>
+          </div>
+          <div class="upgrade-bar__totals">
+            <div class="upgrade-total"><span>Items subtotal</span><strong id="upgSubtotal">£142.49</strong></div>
+            <div class="upgrade-total"><span>Shipping</span><strong>£0.00</strong></div>
+            <div class="upgrade-total upgrade-total--grand"><span>Order total</span><strong id="upgOrderTotal">£142.49</strong></div>
+            <button type="button" class="btn-wc btn-wc--primary" id="upgradeRecalc">Recalculate</button>
+          </div>
+        </div>
+
+        <div class="upgrade-done" id="upgradeDone" hidden>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>
+          <h4>Subscription updated</h4>
+          <p>Next renewal will clone from the new state — <strong>Mounjaro 5mg</strong> at <strong>£175.74</strong>. The <em>Strength</em> on the subscription now reads <strong>5mg</strong>, and every future renewal follows suit.</p>
+          <button type="button" class="btn-wc btn-wc--ghost" id="upgradeReset">↻ Reset demo</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      <div><strong>Golden rule.</strong> Edits here (on the <em>Subscription</em> page) affect <em>all future renewals</em>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     §5 — REMINDER TIMING
+     ========================================================================== -->
+<section class="section" id="s5" aria-labelledby="s5-title">
+  <div class="container">
+    <div class="section__head">
+      <div class="section__num">05</div>
+      <span class="eyebrow">Reminders</span>
+      <h2 id="s5-title">Setting the reminder timing</h2>
+      <p class="lead">
+        <strong>WooCommerce → Settings → Subscriptions → Customer Notifications</strong> controls when
+        the renewal reminder email goes out and when the patient dashboard starts nudging them for a
+        reorder consultation. You've set this to <strong>7 days</strong>. Drag the slider to see why.
+      </p>
+    </div>
+
+    <div class="card timeline" id="timelineCard">
+      <div class="timeline__bar" aria-hidden="true">
+        <div class="timeline__marker timeline__marker--today" style="left:0%;">
+          <span class="timeline__marker-label">Day 0</span>
+          <span class="timeline__marker-dot"></span>
+          <span class="timeline__marker-date">Renewal cycle begins</span>
+        </div>
+        <div class="timeline__marker timeline__marker--email" id="emailMarker" style="left:76.67%;">
+          <span class="timeline__marker-label">Email sent</span>
+          <span class="timeline__marker-dot"></span>
+          <span class="timeline__marker-date" id="emailMarkerDate">Day 23</span>
+        </div>
+        <div class="timeline__marker timeline__marker--renew" style="left:100%;">
+          <span class="timeline__marker-label">Day 30</span>
+          <span class="timeline__marker-dot"></span>
+          <span class="timeline__marker-date">Renewal fires</span>
+        </div>
+      </div>
+
+      <ol class="timeline__stack" aria-hidden="true">
+        <li class="timeline__stack-row">
+          <span class="timeline__stack-dot timeline__stack-dot--today"></span>
+          <span class="timeline__stack-day">Day 0</span>
+          <span class="timeline__stack-desc">Renewal cycle begins</span>
+        </li>
+        <li class="timeline__stack-row timeline__stack-row--email">
+          <span class="timeline__stack-dot timeline__stack-dot--email"></span>
+          <span class="timeline__stack-day" id="emailMarkerDateMobile">Day 23</span>
+          <span class="timeline__stack-desc">Email sent</span>
+        </li>
+        <li class="timeline__stack-row">
+          <span class="timeline__stack-dot timeline__stack-dot--renew"></span>
+          <span class="timeline__stack-day">Day 30</span>
+          <span class="timeline__stack-desc">Renewal fires</span>
+        </li>
+      </ol>
+
+      <div class="timeline__slider-wrap">
+        <label class="timeline__slider-label" for="reminderSlider">Reminder Timing</label>
+        <input type="range" min="1" max="29" value="7" class="timeline__slider" id="reminderSlider" aria-describedby="reminderReadout" />
+        <div class="timeline__readout" id="reminderReadout" aria-live="polite">
+          7 days
+          <small>before renewal</small>
+        </div>
+      </div>
+
+      <div class="timeline__effects">
+        <div class="timeline__effect">
+          <div class="timeline__effect-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          </div>
+          <div>
+            <strong>Email</strong> — patient receives a renewal reminder <span id="effDays1" class="t-days">7</span> days before renewal.
+          </div>
+        </div>
+        <div class="timeline__effect">
+          <div class="timeline__effect-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 20V10"/></svg>
+          </div>
+          <div>
+            <strong>Dashboard</strong> — patient's reorder consultation prompt goes live <span id="effDays2" class="t-days">7</span> days before renewal.
+          </div>
+        </div>
+        <div class="timeline__effect">
+          <div class="timeline__effect-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14l-6 6M21 3l-8 8"/><path d="M13 3h8v8"/></svg>
+          </div>
+          <div>
+            <strong>Call to action</strong> — the email deep-links the patient straight to their dashboard to fill the consultation.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     §5 — RENEWING A SUBSCRIPTION
+     ========================================================================== -->
+<section class="section section--alt" id="s6" aria-labelledby="s6-title">
+  <div class="container">
+    <div class="section__head">
+      <div class="section__num">06</div>
+      <span class="eyebrow">Renewals</span>
+      <h2 id="s6-title">Renewing a subscription</h2>
+      <p class="lead">
+        Three things can happen when the renewal date arrives. Click each tab to walk through the journey —
+        from the happy path, through the <em>Missing Consultation</em> case, to a full cancellation.
+      </p>
+    </div>
+
+    <div class="note">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      <div><strong>Note:</strong> The results of this section depend on the settings in the <a href="#s5">previous section</a> of this demo — drag the Reminder Timing slider there and the day counts here update in step.</div>
+    </div>
+
+    <div class="scenario-tabs" role="tablist" aria-label="Renewal scenarios">
+      <button class="scenario-tab is-active" data-scenario="happy" role="tab" aria-selected="true">
+        <span class="scenario-tab__icon">✓</span>
+        Happy path
+      </button>
+      <button class="scenario-tab" data-scenario="late" role="tab" aria-selected="false">
+        <span class="scenario-tab__icon">!</span>
+        Missing consultation
+      </button>
+      <button class="scenario-tab" data-scenario="cancel" role="tab" aria-selected="false">
+        <span class="scenario-tab__icon">×</span>
+        Cancellation
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="flow" id="flowStage" role="tabpanel" aria-live="polite">
+        <!-- populated by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     CLOSE
+     ========================================================================== -->
+<section class="section" id="close" aria-labelledby="close-title">
+  <div class="container">
+    <div class="close-panel">
+      <div class="section__head close-panel__head">
+        <span class="eyebrow eyebrow--light">That's it</span>
+        <h2 id="close-title">Three things to remember</h2>
+        <p class="lead lead--light">If you come away with these, you've got the plugin.</p>
+      </div>
+
+      <div class="takeaways">
+        <div class="takeaway takeaway--light">
+          <div class="takeaway__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="M12 3v9l6 3"/></svg>
+          </div>
+          <h4>Edit the <em>Subscription</em>, not the order</h4>
+          <p>Dosage changes live on the subscription record. Next renewal clones from there.</p>
+        </div>
+        <div class="takeaway takeaway--light">
+          <div class="takeaway__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          </div>
+          <h4 id="takeawayTitle">Patients get seven days' notice</h4>
+          <p id="takeawayBody">An email and a dashboard prompt land <strong>7 days before renewal</strong>. Adjust anytime in Settings → Subscriptions.</p>
+        </div>
+        <div class="takeaway takeaway--light">
+          <div class="takeaway__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+          </div>
+          <h4>"Missing Consultation" is your cue</h4>
+          <p>Filter the orders page for it. Contact the patient, point them to their dashboard, refund if they've gone quiet.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <strong>The Care Pharmacy</strong> × <strong>Pharmacy Mentor</strong> &nbsp;·&nbsp; Subscriptions guide &nbsp;·&nbsp; April 2026
+</footer>
+
+<script>
+/* ==========================================================================
+   TCP Subscriptions Guide — interactivity
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  /* ---------- §1 Frequency Builder ---------- */
+  var freqList = document.getElementById('freqList');
+  var addBtn   = document.getElementById('addFreq');
+  var useValue = document.getElementById('valDiscount');
+  var MAX_ROWS = 4;
+
+  function buildRow() {
+    var row = document.createElement('div');
+    row.className = 'freq-row';
+    row.innerHTML = [
+      '<div class="freq-row__grip" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>',
+      '<div>',
+        '<div class="fld__label">Interval</div>',
+        '<div class="fld__help" style="margin-top:2px;">Discount %</div>',
+      '</div>',
+      '<div class="freq-row__stack">',
+        '<div class="freq-row__pair">',
+          '<select class="fld__select" aria-label="Interval count">',
+            '<option>every</option><option>every 2</option><option>every 3</option><option>every 4</option>',
+          '</select>',
+          '<select class="fld__select" aria-label="Interval unit">',
+            '<option>day</option><option>week</option><option selected>month</option><option>year</option>',
+          '</select>',
+        '</div>',
+        '<div class="freq-row__discount">',
+          '<input type="number" class="freq-row__discount-in" value="5" min="0" max="100" aria-label="Discount value" />',
+          '<span class="freq-row__discount-suffix">%</span>',
+        '</div>',
+      '</div>',
+      '<button type="button" class="freq-row__remove" aria-label="Remove this frequency">Remove</button>'
+    ].join('');
+
+    row.querySelector('.freq-row__remove').addEventListener('click', function () {
+      row.classList.add('is-removing');
+      setTimeout(function () { row.remove(); }, 200);
+    });
+    return row;
+  }
+
+  // Seed one row
+  freqList.appendChild(buildRow());
+
+  addBtn.addEventListener('click', function () {
+    if (freqList.children.length >= MAX_ROWS) {
+      addBtn.animate(
+        [{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }],
+        { duration: 260 }
+      );
+      return;
+    }
+    freqList.appendChild(buildRow());
+    addBtn.classList.remove('is-pop');
+    // reflow to restart animation
+    void addBtn.offsetWidth;
+    addBtn.classList.add('is-pop');
+  });
+
+  useValue.addEventListener('change', function () {
+    var suffix = useValue.checked ? '£' : '%';
+    var prefix = useValue.checked ? true : false;
+    var inputs = freqList.querySelectorAll('.freq-row__discount');
+    inputs.forEach(function (group) {
+      var txt = group.querySelector('.freq-row__discount-suffix');
+      txt.textContent = suffix;
+      if (prefix) {
+        group.insertBefore(txt, group.firstChild);
+      } else {
+        group.appendChild(txt);
+      }
+    });
+  });
+
+  /* ---------- §2 Related Orders viewing selector + tooltips ---------- */
+  var viewingSel = document.getElementById('viewingSelect');
+  var relTable   = document.getElementById('relTable');
+  var relBody    = relTable.querySelector('tbody');
+
+  function applyViewing(rel) {
+    relBody.querySelectorAll('tr').forEach(function (tr) {
+      if (rel === 'renewal') {
+        // Renewal page: only one renewal row would be "this" — hide the top one
+        tr.classList.toggle('is-self', tr === relBody.querySelector('tr[data-rel="renewal"]'));
+      } else {
+        tr.classList.toggle('is-self', tr.getAttribute('data-rel') === rel);
+      }
+    });
+  }
+  viewingSel.addEventListener('change', function () { applyViewing(viewingSel.value); });
+  applyViewing(viewingSel.value);
+
+  // Tooltip for table rows
+  var tip = document.createElement('div');
+  tip.className = 'tip';
+  tip.setAttribute('role', 'tooltip');
+  document.body.appendChild(tip);
+
+  relBody.addEventListener('mouseover', function (e) {
+    var tr = e.target.closest('tr');
+    if (!tr || !tr.dataset.tip) return;
+    tip.textContent = tr.dataset.tip;
+    var r = tr.getBoundingClientRect();
+    tip.style.left = (window.scrollX + r.left + 12) + 'px';
+    tip.style.top  = (window.scrollY + r.bottom + 8) + 'px';
+    tip.classList.add('is-show');
+  });
+  relBody.addEventListener('mouseout', function (e) {
+    var to = e.relatedTarget;
+    if (!to || !relBody.contains(to)) tip.classList.remove('is-show');
+  });
+
+  /* ---------- §3 Hotspots ---------- */
+  document.querySelectorAll('.hotspot__dot').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var host = btn.closest('.hotspot');
+      var wasOpen = host.classList.contains('is-open');
+      document.querySelectorAll('.hotspot.is-open').forEach(function (h) { h.classList.remove('is-open'); });
+      if (!wasOpen) host.classList.add('is-open');
+    });
+  });
+  document.addEventListener('click', function () {
+    document.querySelectorAll('.hotspot.is-open').forEach(function (h) { h.classList.remove('is-open'); });
+  });
+
+  /* ---------- §3 Status lifecycle ---------- */
+  var statusPills = document.querySelectorAll('.status-pills button');
+  var subCard      = document.getElementById('subCard');
+  var subBadge     = document.getElementById('subCardBadge');
+  var subExplainer = document.getElementById('subCardExplainer');
+
+  var STATUS_COPY = {
+    'active':    { badge: 'Active',    cls: 'pill--active',    html: '<strong>Active.</strong> The subscription will keep renewing on its schedule. Patient has a valid payment method and a consultation on file.' },
+    'on-hold':   { badge: 'On hold',   cls: 'pill--hold',      html: '<strong>On hold.</strong> Waiting for a reorder consultation to be attached — or a payment has failed. The next renewal will still trigger, but with a <em>Missing Consultation</em> status.' },
+    'cancelled': { badge: 'Cancelled', cls: 'pill--cancelled', html: '<strong>Cancelled.</strong> No more renewals will fire. Happens automatically if no consultation is filed by the next renewal, or manually by patient or staff.' }
+  };
+
+  statusPills.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var state = btn.getAttribute('data-state');
+      statusPills.forEach(function (b) {
+        b.classList.toggle('is-active', b === btn);
+        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+      });
+      subCard.setAttribute('data-state', state);
+      var copy = STATUS_COPY[state];
+      subBadge.className = 'pill ' + copy.cls;
+      subBadge.textContent = copy.badge;
+      subExplainer.innerHTML = copy.html;
+    });
+  });
+
+  /* ---------- §4 Reminder timing ---------- */
+  var slider   = document.getElementById('reminderSlider');
+  var readout  = document.getElementById('reminderReadout');
+  var emailMk  = document.getElementById('emailMarker');
+  var emailDt  = document.getElementById('emailMarkerDate');
+  var emailDtM = document.getElementById('emailMarkerDateMobile');
+  var days1    = document.getElementById('effDays1');
+  var days2    = document.getElementById('effDays2');
+
+  var REMINDER_DAYS = 7; // shared, dynamic — used by §5 and takeaways too
+  function updateTimeline() {
+    var daysBefore = parseInt(slider.value, 10); // 1..29
+    REMINDER_DAYS = daysBefore;
+    var total = 30;
+    var pct = ((total - daysBefore) / total) * 100;
+    var dayLabel = 'Day ' + (total - daysBefore);
+    emailMk.style.left = pct + '%';
+    emailDt.textContent = dayLabel;
+    if (emailDtM) emailDtM.textContent = dayLabel;
+    readout.innerHTML = daysBefore + ' day' + (daysBefore === 1 ? '' : 's') + '<small>before renewal</small>';
+    days1.textContent = daysBefore;
+    days2.textContent = daysBefore;
+    if (typeof onReminderChange === 'function') onReminderChange(daysBefore);
+  }
+  slider.addEventListener('input', updateTimeline);
+
+  /* ---------- §4 Upgrade simulator ---------- */
+  var UPG_ITEMS = {
+    '2.5mg': { title: 'Mounjaro Weight Loss Injection — 2.5mg', sku: '111', variation: '7517', strength: '2.5mg', price: 142.49, regular: 149.99 },
+    '5mg':   { title: 'Mounjaro Weight Loss Injection — 5mg',   sku: '111', variation: '7518', strength: '5mg',   price: 175.74, regular: 184.99 }
+  };
+  var upgState = { items: ['2.5mg'], removed: false, added: false, recalculated: false };
+
+  var upgItemsHost  = document.getElementById('upgradeItems');
+  var upgAddBtn     = document.getElementById('upgradeAdd');
+  var upgRecalcBtn  = document.getElementById('upgradeRecalc');
+  var upgPicker     = document.getElementById('upgradePicker');
+  var upgPickClose  = document.getElementById('upgradePickerClose');
+  var upgGuide      = document.getElementById('upgradeGuide');
+  var upgSubtotal   = document.getElementById('upgSubtotal');
+  var upgOrderTot   = document.getElementById('upgOrderTotal');
+  var upgDone       = document.getElementById('upgradeDone');
+  var upgResetBtn   = document.getElementById('upgradeReset');
+
+  function fmtPrice(v) { return '£' + v.toFixed(2); }
+
+  function itemThumbSvg() {
+    return '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M10 3v3h4V3M9 10h6M9 14h6"/></svg>';
+  }
+
+  function renderUpgItems() {
+    upgItemsHost.innerHTML = upgState.items.map(function (k) {
+      var it = UPG_ITEMS[k];
+      return '<div class="upg-item" data-key="' + k + '">' +
+        '<div class="upg-item__thumb" aria-hidden="true">' + itemThumbSvg() + '</div>' +
+        '<div class="upg-item__body">' +
+          '<a href="#" class="upg-item__title">' + it.title + '</a>' +
+          '<div class="upg-item__meta">' +
+            '<div><strong>SKU:</strong> ' + it.sku + '</div>' +
+            '<div><strong>Variation ID:</strong> ' + it.variation + '</div>' +
+            '<div><strong>Strength:</strong> ' + it.strength + '</div>' +
+          '</div>' +
+          '<div class="upg-item__price"><s>£' + it.regular.toFixed(2) + '</s> <strong>£' + it.price.toFixed(2) + '</strong></div>' +
+        '</div>' +
+        '<div class="upg-item__side">' +
+          '<span class="upg-item__line">' + fmtPrice(it.price) + '</span>' +
+          '<span class="upg-item__qty">× 1</span>' +
+          '<span class="upg-item__total">' + fmtPrice(it.price) + '</span>' +
+          '<button type="button" class="upg-remove" data-key="' + k + '" aria-label="Remove ' + it.title + '">×</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    // Remove handlers
+    upgItemsHost.querySelectorAll('.upg-remove').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var key = btn.getAttribute('data-key');
+        var row = btn.closest('.upg-item');
+        row.classList.add('is-removing');
+        setTimeout(function () {
+          var idx = upgState.items.indexOf(key);
+          if (idx > -1) upgState.items.splice(idx, 1);
+          upgState.removed = true;
+          upgState.recalculated = false;
+          syncUpg();
+        }, 220);
+      });
+    });
+  }
+
+  function syncUpg() {
+    renderUpgItems();
+    var subTotal = upgState.items.reduce(function (s, k) { return s + UPG_ITEMS[k].price; }, 0);
+    upgSubtotal.textContent = fmtPrice(subTotal);
+    if (upgState.recalculated) {
+      upgOrderTot.textContent = fmtPrice(subTotal);
+    }
+
+    // Clear all hints first
+    [upgAddBtn, upgRecalcBtn].forEach(function (el) { if (el) el.classList.remove('is-hint'); });
+    document.querySelectorAll('.upg-remove.is-hint').forEach(function (el) { el.classList.remove('is-hint'); });
+
+    // Apply the right hint + guide text
+    var html;
+    if (upgState.items.indexOf('2.5mg') > -1 && upgState.items.indexOf('5mg') === -1 && !upgState.removed) {
+      var rem = upgItemsHost.querySelector('.upg-remove[data-key="2.5mg"]');
+      if (rem) rem.classList.add('is-hint');
+      html = '<span class="upgrade-guide__num">Step 1</span><span class="upgrade-guide__text">Click the <strong>×</strong> next to <em>Mounjaro 2.5mg</em> to remove it.</span>';
+    } else if (upgState.items.indexOf('5mg') === -1) {
+      upgAddBtn.classList.add('is-hint');
+      html = '<span class="upgrade-guide__num">Step 2</span><span class="upgrade-guide__text">Click <strong>+ Add item(s)</strong> and pick the new variation.</span>';
+    } else if (!upgState.recalculated) {
+      upgRecalcBtn.classList.add('is-hint');
+      html = '<span class="upgrade-guide__num">Step 3</span><span class="upgrade-guide__text">Hit <strong>Recalculate</strong> to refresh totals. In real WooCommerce you\'d then click <em>Update</em> to save.</span>';
+    } else {
+      html = '<span class="upgrade-guide__num">✓ Done</span><span class="upgrade-guide__text"><strong>Subscription updated.</strong> Next renewal clones from the new state.</span>';
+    }
+    upgGuide.innerHTML = html;
+  }
+
+  upgAddBtn.addEventListener('click', function () {
+    upgPicker.hidden = false;
+    upgPicker.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+  if (upgPickClose) upgPickClose.addEventListener('click', function () { upgPicker.hidden = true; });
+
+  upgPicker.querySelectorAll('.upgrade-picker__option').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var v = b.getAttribute('data-variation');
+      if (upgState.items.indexOf(v) === -1) upgState.items.push(v);
+      upgState.added = true;
+      upgState.recalculated = false;
+      upgPicker.hidden = true;
+      syncUpg();
+      setTimeout(function () {
+        var newRow = upgItemsHost.querySelector('.upg-item[data-key="' + v + '"]');
+        if (newRow) newRow.classList.add('is-new');
+      }, 20);
+    });
+  });
+
+  upgRecalcBtn.addEventListener('click', function () {
+    if (!upgState.items.length) return;
+    upgState.recalculated = true;
+    syncUpg();
+    var grand = upgOrderTot.closest('.upgrade-total');
+    if (grand) {
+      grand.classList.add('is-updated');
+      setTimeout(function () { grand.classList.remove('is-updated'); }, 900);
+    }
+    if (upgState.items.indexOf('5mg') > -1 && upgState.items.indexOf('2.5mg') === -1) {
+      setTimeout(function () { if (upgDone) upgDone.hidden = false; }, 500);
+    }
+  });
+
+  if (upgResetBtn) upgResetBtn.addEventListener('click', function () {
+    upgState = { items: ['2.5mg'], removed: false, added: false, recalculated: false };
+    if (upgDone) upgDone.hidden = true;
+    upgOrderTot.textContent = fmtPrice(UPG_ITEMS['2.5mg'].price);
+    syncUpg();
+  });
+
+  syncUpg();
+
+  /* ---------- §5↔Close: dynamic takeaway copy ---------- */
+  var takeawayTitle = document.getElementById('takeawayTitle');
+  var takeawayBody  = document.getElementById('takeawayBody');
+  var WORDS = { 1:'one', 2:'two', 3:'three', 4:'four', 5:'five', 6:'six', 7:'seven', 8:'eight', 9:'nine', 10:'ten', 14:'fourteen' };
+
+  function updateTakeawayCopy() {
+    if (!takeawayTitle || !takeawayBody) return;
+    var d = REMINDER_DAYS;
+    var word = WORDS[d] || d;
+    takeawayTitle.textContent = 'Patients get ' + word + ' day' + (d === 1 ? '' : 's') + ' notice';
+    takeawayBody.innerHTML = 'An email and a dashboard prompt land <strong>' + d + ' day' + (d === 1 ? '' : 's') + ' before renewal</strong>. Adjust anytime in Settings → Subscriptions.';
+  }
+  updateTakeawayCopy();
+
+  /* ---------- §6 Renewal scenarios ---------- */
+  var scenarioTabs = document.querySelectorAll('.scenario-tab');
+  var flowStage    = document.getElementById('flowStage');
+
+  function scenarios(days) {
+    return {
+      happy: {
+        title: 'Everything on time',
+        icon: '<span class="pill pill--active">All good</span>',
+        callout: '<strong>Your job:</strong> nothing. Treat the renewal order like any other order.',
+        steps: [
+          { cls: 'good', title: 'Day −' + days + ' · Email fires', body: 'Patient receives renewal reminder email with a dashboard link.' },
+          { cls: '',     title: 'Patient acts', body: 'Patient clicks through and fills the reorder consultation.' },
+          { cls: '',     title: 'Day 0 · Renewal', body: 'Subscription renews on schedule. New order is created automatically.' },
+          { cls: 'good', title: 'Consultation attached', body: 'The filled consultation is attached to the new renewal order.' },
+          { cls: 'good', title: 'Processing', body: '<span class="pill pill--processing">Processing</span> — business as usual from here.' }
+        ]
+      },
+      late: {
+        title: 'Patient forgets to act',
+        icon: '<span class="pill pill--missing">Needs attention</span>',
+        callout: '<strong>Your job:</strong> on the day of renewal (or the day after), contact the patient and direct them to their dashboard to fill the reorder consultation. Once they do, the status flips from <em>Missing Consultation</em> to <em>Processing</em> and you carry on as normal.',
+        showMcExample: true,
+        steps: [
+          { cls: '',     title: 'Day −' + days + ' · First email', body: 'Patient receives the renewal reminder. Doesn\'t act.' },
+          { cls: 'warn', title: 'Day −1 · Urgent reminder', body: 'A second, urgent reminder email is sent.' },
+          { cls: 'warn', title: 'Day 0 · Renewal fires', body: 'Renewal order created — no consultation attached.' },
+          { cls: 'warn', title: 'On hold + Missing Consultation', body: 'Subscription → <span class="pill pill--hold">On hold</span>. Order → <span class="pill pill--missing">Missing Consultation</span> (filterable at the top of the orders page).' },
+          { cls: 'good', title: 'Staff nudges patient', body: 'You reach out, patient fills the consultation, status flips to <span class="pill pill--processing">Processing</span>.' }
+        ]
+      },
+      cancel: {
+        title: 'Cancelling a subscription',
+        icon: '<span class="pill pill--cancelled">Cancelled</span>',
+        callout: '<strong>Remember:</strong> cancel from the <em>Subscription</em> page (WooCommerce → Subscriptions), not the Orders page. If there\'s a <em>Missing Consultation</em> order still outstanding, refund it.',
+        steps: [
+          { cls: '',     title: 'Time to stop', body: 'Patient doesn\'t want to continue, hasn\'t responded to outreach, or it\'s simply run its course.' },
+          { cls: '',     title: 'Three ways to cancel', body: '<strong>Patient</strong> via My Account → Subscriptions. <strong>You</strong> via WooCommerce → Subscriptions. Or <strong>automatic</strong> — at the next renewal if no one acts.' },
+          { cls: '',     title: 'Status → Cancelled', body: 'Subscription moves to <span class="pill pill--cancelled">Cancelled</span>. No further charges, no future renewals.' },
+          { cls: 'good', title: 'Refund if needed', body: 'If there\'s an outstanding <span class="pill pill--missing">Missing Consultation</span> order, refund it. Done.' }
+        ]
+      }
+    };
+  }
+
+  function missingOrderExample() {
+    return [
+      '<div class="mc-example" aria-label="What a Missing Consultation order looks like on the Orders page">',
+        '<div class="mc-example__label">What it looks like on your Orders page</div>',
+        '<div class="mc-order">',
+          '<input type="checkbox" aria-label="Select order" disabled />',
+          '<div class="mc-order__id">',
+            '<a href="#" class="order-num">#107890</a>',
+            '<span class="mc-order__name">James Whitfield</span>',
+            '<svg class="mc-order__preview" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
+          '</div>',
+          '<div class="mc-order__date">18 Apr 2026</div>',
+          '<span class="pill pill--missing pill--lg">Missing Consultation</span>',
+          '<div class="mc-order__total">£95.94</div>',
+          '<div class="mc-order__actions" aria-hidden="true">',
+            '<span class="mc-order__icon" title="Refund">↩</span>',
+            '<span class="mc-order__icon" title="Notes">≡</span>',
+          '</div>',
+        '</div>',
+      '</div>'
+    ].join('');
+  }
+
+  function renderScenario(key) {
+    var s = scenarios(REMINDER_DAYS)[key];
+    var html = '';
+    html += '<div class="flow__headline">';
+    html +=   '<h4>' + s.title + '</h4>';
+    html +=   s.icon;
+    html += '</div>';
+    html += '<div class="flow__steps">';
+    s.steps.forEach(function (step, i) {
+      html += '<div class="flow__step ' + (step.cls ? 'flow__step--' + step.cls : '') + '">';
+      html +=   '<div class="flow__step-num">' + (i + 1) + '</div>';
+      html +=   '<h5>' + step.title + '</h5>';
+      html +=   '<p>' + step.body + '</p>';
+      html += '</div>';
+    });
+    html += '</div>';
+    if (s.showMcExample) html += missingOrderExample();
+    html += '<div class="flow__callout">';
+    html +=   '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>';
+    html +=   '<div>' + s.callout + '</div>';
+    html += '</div>';
+    flowStage.innerHTML = html;
+  }
+
+  var activeScenario = 'happy';
+  scenarioTabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      scenarioTabs.forEach(function (t) {
+        t.classList.toggle('is-active', t === tab);
+        t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+      });
+      activeScenario = tab.getAttribute('data-scenario');
+      renderScenario(activeScenario);
+    });
+  });
+
+  // Re-render scenario and takeaway when the slider changes
+  window.onReminderChange = function () {
+    renderScenario(activeScenario);
+    if (typeof updateTakeawayCopy === 'function') updateTakeawayCopy();
+  };
+
+  renderScenario('happy');
+  updateTimeline();
+
+  /* ---------- Sticky nav + progress ---------- */
+  var sections = ['s1', 's2', 's3', 's4', 's5', 's6'].map(function (id) { return document.getElementById(id); });
+  var railDots  = document.querySelectorAll('.nav-rail__dot');
+  var railFill  = document.getElementById('railFill');
+  var progBar   = document.getElementById('progressFillMobile');
+  var menuLinks = document.querySelectorAll('.nav-bar__menu a');
+
+  function updateProgress() {
+    var scrollTop = window.scrollY || document.documentElement.scrollTop;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+    railFill.style.height = pct + '%';
+    progBar.style.width = pct + '%';
+
+    var activeIndex = 0;
+    var vh = window.innerHeight;
+    for (var i = 0; i < sections.length; i++) {
+      var r = sections[i].getBoundingClientRect();
+      if (r.top <= vh * 0.4) activeIndex = i;
+    }
+    railDots.forEach(function (d, i) { d.classList.toggle('is-active', i === activeIndex); });
+    menuLinks.forEach(function (l, i) { l.classList.toggle('is-active', i === activeIndex); });
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress);
+  updateProgress();
+
+  /* ---------- Mobile menu toggle ---------- */
+  var navToggle = document.getElementById('navToggle');
+  var navMenu   = document.getElementById('navMenu');
+  navToggle.addEventListener('click', function () {
+    var open = navMenu.classList.toggle('is-open');
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  navMenu.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') {
+      navMenu.classList.remove('is-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+})();
+</script>
+</body>
+</html>

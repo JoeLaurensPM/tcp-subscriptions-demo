@@ -1,0 +1,12 @@
+# Local working copy — not for the public repo
+tcp-subscriptions-guide - WORKING COPY.html
+
+# Internal design spec / planning docs
+docs/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
