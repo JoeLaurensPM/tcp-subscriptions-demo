@@ -2863,8 +2863,8 @@ p { margin: 0 0 16px; }
 
   var STATUS_COPY = {
     'active':    { badge: 'Active',    cls: 'pill--active',    html: '<strong>Active.</strong> The subscription will keep renewing on its schedule. Patient has a valid payment method and a consultation on file.' },
-    'on-hold':   { badge: 'On hold',   cls: 'pill--hold',      html: '<strong>On hold.</strong> Waiting for a reorder consultation to be attached — or a payment has failed. The next renewal will still trigger, but with a <em>Missing Consultation</em> status.' },
-    'cancelled': { badge: 'Cancelled', cls: 'pill--cancelled', html: '<strong>Cancelled.</strong> No more renewals will fire. Happens automatically if no consultation is filed by the next renewal, or manually by patient or staff.' }
+    'on-hold':   { badge: 'On hold',   cls: 'pill--hold',      html: '<strong>On hold.</strong> Awaiting a reorder consultation or a failed payment. Renewals are paused. The subscription <em>stays here</em> until someone acts — patient submits the consult (flips back to Active) or someone manually cancels it. It does not auto-cancel.' },
+    'cancelled': { badge: 'Cancelled', cls: 'pill--cancelled', html: '<strong>Cancelled.</strong> No more renewals will fire. Only reached by manual cancellation — patient via My Account or staff via the admin. Subscriptions don\'t auto-cancel from On hold.' }
   };
 
   statusPills.forEach(function (btn) {
@@ -3094,11 +3094,12 @@ p { margin: 0 0 16px; }
       cancel: {
         title: 'Cancelling a subscription',
         icon: '<span class="pill pill--cancelled">Cancelled</span>',
-        callout: '<strong>Remember:</strong> cancel from the <em>Subscription</em> page (WooCommerce → Subscriptions), not the Orders page. If there\'s a <em>Missing Consultation</em> order still outstanding, refund it.',
+        callout: '<strong>Important:</strong> subscriptions don\'t auto-cancel. An <em>On hold</em> sub stays on hold forever unless someone actively cancels it — so make a habit of clearing out dormant On hold subs.',
         steps: [
           { cls: '',     title: 'Time to stop', body: 'Patient doesn\'t want to continue, hasn\'t responded to outreach, or it\'s simply run its course.' },
-          { cls: '',     title: 'Three ways to cancel', body: '<strong>Patient</strong> via My Account → Subscriptions. <strong>You</strong> via WooCommerce → Subscriptions. Or <strong>automatic</strong> — at the next renewal if no one acts.' },
-          { cls: '',     title: 'Status → Cancelled', body: 'Subscription moves to <span class="pill pill--cancelled">Cancelled</span>. No further charges, no future renewals.' },
+          { cls: '',     title: 'Two ways to cancel', body: '<strong>Patient</strong> cancels via My Account → Subscriptions. Or <strong>you</strong> cancel via WooCommerce → Subscriptions (the <em>Subscription</em> page, not the Orders page).' },
+          { cls: 'warn', title: 'No action = stays On hold', body: 'If neither happens, the subscription sits in <span class="pill pill--hold">On hold</span> indefinitely. It will <em>not</em> auto-cancel itself at the next renewal.' },
+          { cls: '',     title: 'Status → Cancelled', body: 'Once cancelled, the subscription moves to <span class="pill pill--cancelled">Cancelled</span>. No further charges, no future renewals.' },
           { cls: 'good', title: 'Refund if needed', body: 'If there\'s an outstanding <span class="pill pill--missing">Missing Consultation</span> order, refund it. Done.' }
         ]
       }
