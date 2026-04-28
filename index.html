@@ -1949,6 +1949,51 @@ p { margin: 0 0 16px; }
 }
 
 .testing-card { padding: 28px; }
+.testing-card--narrow { max-width: 580px; }
+
+/* Tooltip on the HH/MM time fields */
+.sch-tooltip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 0;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--navy);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(6,3,73,0.28);
+  animation: tipIn 200ms var(--ease);
+}
+.sch-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 96px;
+  border: 6px solid transparent;
+  border-top-color: var(--navy);
+  border-bottom: 0;
+}
+.sch-tooltip__icon { font-size: 14px; }
+@keyframes tipIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Shake — used to nudge user when they click date before setting time */
+.is-shaking { animation: shake 420ms ease-in-out; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
 .testing-card__head {
   display: flex;
   gap: 14px;
@@ -3445,13 +3490,59 @@ p { margin: 0 0 16px; }
       <span class="eyebrow eyebrow--testing">For testing only</span>
       <h2 id="s7-title">Testing toolkit</h2>
       <p class="lead">
-        Two shortcuts to make testing painless. Once the plugin is live and stable, these become
-        background tricks rather than daily tools — but during the testing window, they save you a
-        month of waiting.
+        Two tools for the testing window. <strong>First</strong>, the Mollie test card lets you
+        place orders without spending real money. <strong>Second</strong>, a Schedule trick fires
+        a renewal in 1 hour instead of waiting a month — so you can run the full subscription cycle
+        in an afternoon instead of a calendar year.
       </p>
     </div>
 
     <div class="testing-grid">
+
+      <!-- Mollie test card (use first to place a test order) -->
+      <div class="card testing-card testing-card--narrow">
+        <div class="testing-card__head">
+          <div class="testing-card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 11h20M6 16h4"/></svg>
+          </div>
+          <div>
+            <h3>Mollie test card (Visa)</h3>
+            <p class="testing-card__sub">Use these details for any sandbox checkout — <strong>never</strong> a real card. Place your test order with this <strong>first</strong>, then use the demo below to fast-forward the renewal.</p>
+          </div>
+        </div>
+        <div class="testing-card__body">
+          <div class="test-card" role="img" aria-label="Mollie test Visa card">
+            <div class="test-card__top">
+              <span class="test-card__chip" aria-hidden="true"></span>
+              <span class="test-card__brand">VISA</span>
+            </div>
+            <div class="test-card__number">
+              <span>4543</span><span>4740</span><span>0224</span><span>9996</span>
+            </div>
+            <div class="test-card__row">
+              <div>
+                <div class="test-card__label">Cardholder</div>
+                <div class="test-card__value">TEST USER</div>
+              </div>
+              <div>
+                <div class="test-card__label">Expires</div>
+                <div class="test-card__value">Any future</div>
+              </div>
+              <div>
+                <div class="test-card__label">CVC</div>
+                <div class="test-card__value">Any 3 digits</div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="testing-copy" data-copy="4543 4740 0224 9996">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span class="testing-copy__label">Copy card number</span>
+          </button>
+          <div class="testing-card__hint testing-card__hint--alt">
+            <strong>Note:</strong> Mollie's full sandbox flow also redirects to a test gateway where you can pick a different outcome (Failed, Cancelled, Expired). The card details above are for the card-entry step before the gateway.
+          </div>
+        </div>
+      </div>
 
       <!-- Time-shift trick -->
       <div class="card testing-card">
@@ -3505,6 +3596,11 @@ p { margin: 0 0 16px; }
                     <input type="text" id="schHH" maxlength="2" class="sch-input sch-input--time" inputmode="numeric" aria-label="Hour" />
                     <span class="sch-colon">:</span>
                     <input type="text" id="schMM" maxlength="2" class="sch-input sch-input--time" inputmode="numeric" aria-label="Minute" />
+
+                    <div class="sch-tooltip" id="schTooltip" hidden role="tooltip">
+                      <span class="sch-tooltip__icon" aria-hidden="true">⏰</span>
+                      Set this to about 1 hour from now
+                    </div>
 
                     <div class="cal-popup" id="calPopup" role="dialog" aria-label="Date picker" hidden>
                       <div class="cal-head">
@@ -3560,51 +3656,6 @@ p { margin: 0 0 16px; }
 
           <div class="testing-card__hint">
             <strong>Result:</strong> the renewal fires in 1 hour instead of waiting for the real renewal date.
-          </div>
-        </div>
-      </div>
-
-      <!-- Mollie test card -->
-      <div class="card testing-card">
-        <div class="testing-card__head">
-          <div class="testing-card__icon" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 11h20M6 16h4"/></svg>
-          </div>
-          <div>
-            <h3>Mollie test card (Visa)</h3>
-            <p class="testing-card__sub">Use these details for any sandbox checkout — <strong>never</strong> a real card.</p>
-          </div>
-        </div>
-        <div class="testing-card__body">
-          <div class="test-card" role="img" aria-label="Mollie test Visa card">
-            <div class="test-card__top">
-              <span class="test-card__chip" aria-hidden="true"></span>
-              <span class="test-card__brand">VISA</span>
-            </div>
-            <div class="test-card__number">
-              <span>4543</span><span>4740</span><span>0224</span><span>9996</span>
-            </div>
-            <div class="test-card__row">
-              <div>
-                <div class="test-card__label">Cardholder</div>
-                <div class="test-card__value">TEST USER</div>
-              </div>
-              <div>
-                <div class="test-card__label">Expires</div>
-                <div class="test-card__value">Any future</div>
-              </div>
-              <div>
-                <div class="test-card__label">CVC</div>
-                <div class="test-card__value">Any 3 digits</div>
-              </div>
-            </div>
-          </div>
-          <button type="button" class="testing-copy" data-copy="4543 4740 0224 9996">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            <span class="testing-copy__label">Copy card number</span>
-          </button>
-          <div class="testing-card__hint testing-card__hint--alt">
-            <strong>Note:</strong> Mollie's full sandbox flow also redirects to a test gateway where you can pick a different outcome (Failed, Cancelled, Expired). The card details above are for the card-entry step before the gateway.
           </div>
         </div>
       </div>
@@ -4116,6 +4167,7 @@ p { margin: 0 0 16px; }
     var schDate    = document.getElementById('schDate');
     var schHH      = document.getElementById('schHH');
     var schMM      = document.getElementById('schMM');
+    var schTooltip = document.getElementById('schTooltip');
     var calPopup   = document.getElementById('calPopup');
     var calMonthEl = document.getElementById('calMonth');
     var calGrid    = document.getElementById('calGrid');
@@ -4161,6 +4213,7 @@ p { margin: 0 0 16px; }
       schDone.hidden = true;
       valModal.hidden = true;
       calPopup.hidden = true;
+      if (schTooltip) schTooltip.hidden = true;
       schUpdate.classList.remove('is-hint-target');
       sync();
     }
@@ -4301,16 +4354,59 @@ p { margin: 0 0 16px; }
       sync();
     }
 
+    // Tooltip helpers
+    function showTooltip() {
+      if (state.timeChanged || !schTooltip) return;
+      schTooltip.hidden = false;
+    }
+    function hideTooltip() {
+      if (schTooltip) schTooltip.hidden = true;
+    }
+    function shakeTime() {
+      schHH.classList.remove('is-shaking');
+      schMM.classList.remove('is-shaking');
+      // Force reflow so the animation restarts
+      void schHH.offsetWidth; void schMM.offsetWidth;
+      schHH.classList.add('is-shaking');
+      schMM.classList.add('is-shaking');
+      setTimeout(function () {
+        schHH.classList.remove('is-shaking');
+        schMM.classList.remove('is-shaking');
+      }, 420);
+    }
+
     // Event wiring
-    function onTimeChange() {
-      state.timeChanged = true;
+    function onTimeFocus() {
+      state.timeFocused = true;
+      showTooltip();
       sync();
     }
+    function onTimeBlur() {
+      // Delay so we don't flicker when focus moves between HH and MM
+      setTimeout(function () {
+        if (document.activeElement !== schHH && document.activeElement !== schMM) hideTooltip();
+      }, 80);
+    }
+    function onTimeChange() {
+      state.timeChanged = true;
+      hideTooltip();
+      sync();
+    }
+    schHH.addEventListener('focus', onTimeFocus);
+    schMM.addEventListener('focus', onTimeFocus);
+    schHH.addEventListener('blur', onTimeBlur);
+    schMM.addEventListener('blur', onTimeBlur);
     schHH.addEventListener('input', onTimeChange);
     schMM.addEventListener('input', onTimeChange);
 
     schDate.addEventListener('click', function () {
       if (state.updated || state.calOpen) return;
+      // Gate: time must be edited first
+      if (!state.timeChanged) {
+        showTooltip();
+        shakeTime();
+        return;
+      }
       openCalendar();
     });
 
