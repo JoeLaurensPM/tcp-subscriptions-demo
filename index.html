@@ -1941,11 +1941,8 @@ p { margin: 0 0 16px; }
 
 .testing-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 20px;
-}
-@media (max-width: 760px) {
-  .testing-grid { grid-template-columns: 1fr; }
 }
 
 .testing-card { padding: 28px; }
@@ -2021,105 +2018,163 @@ p { margin: 0 0 16px; }
   font-size: 13px;
 }
 
-/* Test credit card visual */
-.test-card {
-  position: relative;
-  padding: 24px 26px;
-  border-radius: 14px;
-  background:
-    radial-gradient(circle at 90% -20%, rgba(255, 39, 183, 0.4), transparent 55%),
-    radial-gradient(circle at -20% 120%, rgba(0, 79, 178, 0.35), transparent 55%),
-    linear-gradient(135deg, #0a1f4f 0%, #060349 100%);
-  color: #fff;
-  font-family: 'Courier New', ui-monospace, monospace;
-  box-shadow: var(--shadow-md);
+/* Mollie test gateway mock */
+.mollie-gateway {
+  border: 1px solid #d6d8dc;
+  border-radius: 8px;
+  background: #fff;
   overflow: hidden;
-  min-height: 195px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  margin-top: 12px;
+  box-shadow: var(--shadow-sm);
 }
-.test-card__top {
+.mollie-gateway__bar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: #f3f4f6;
+  border-bottom: 1px solid #d6d8dc;
 }
-.test-card__chip {
-  display: inline-block;
-  width: 40px;
-  height: 30px;
-  background: linear-gradient(135deg, #d4af37 0%, #b8961e 60%, #d4af37 100%);
-  border-radius: 5px;
-  position: relative;
-}
-.test-card__chip::after {
-  content: '';
-  position: absolute;
-  inset: 4px;
-  border: 1px solid rgba(0,0,0,0.2);
-  border-radius: 3px;
-}
-.test-card__brand {
-  font-family: Arial, sans-serif;
-  font-style: italic;
-  font-weight: 900;
-  font-size: 24px;
-  letter-spacing: 0.06em;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-.test-card__number {
-  display: flex;
-  gap: 14px;
-  font-size: 19px;
-  letter-spacing: 0.05em;
-  font-weight: 700;
-  margin: 18px 0;
-  position: relative;
-  z-index: 1;
-  flex-wrap: wrap;
-}
-.test-card__row {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-.test-card__label {
-  font-family: Arial, sans-serif;
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
-  margin-bottom: 3px;
-}
-.test-card__value {
-  font-family: 'Courier New', ui-monospace, monospace;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
-
-.testing-copy {
+.mollie-gateway__logo {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 14px;
-  padding: 10px 16px;
-  background: var(--navy);
-  color: #fff;
-  border: none;
-  border-radius: 999px;
-  font-family: inherit;
+  font-family: Arial, sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  color: #000;
+  letter-spacing: -0.01em;
+}
+.mollie-gateway__logo-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #000;
+  position: relative;
+}
+.mollie-gateway__logo-dot::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: #fff;
+}
+.mollie-gateway__url {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 11px;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mollie-gateway__body {
+  padding: 22px 22px 18px;
+}
+.mollie-gateway__title {
+  font-weight: 800;
+  font-size: 16px;
+  color: #111827;
+  margin-bottom: 4px;
+}
+.mollie-gateway__sub {
   font-size: 13px;
-  font-weight: 700;
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+.mollie-gateway__options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+.mollie-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-family: inherit;
+  text-align: left;
   cursor: pointer;
-  transition: background 200ms var(--ease), transform 200ms var(--ease);
+  transition: all 180ms var(--ease);
+  min-width: 0;
 }
-.testing-copy:hover {
-  background: var(--purple);
+.mollie-status:hover {
+  border-color: #6366f1;
+  background: #f8fafe;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99,102,241,0.12);
 }
-.testing-copy.is-copied {
-  background: var(--status-active);
+.mollie-status.is-selected {
+  border-color: #111827;
+  background: #f9fafb;
+  box-shadow: 0 0 0 2px rgba(17,24,39,0.1);
+}
+.mollie-status__icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 13px;
+  color: #fff;
+}
+.mollie-status__icon--paid      { background: #10b981; }
+.mollie-status__icon--failed    { background: #ef4444; }
+.mollie-status__icon--cancelled { background: #6b7280; }
+.mollie-status__icon--expired   { background: #f59e0b; }
+.mollie-status__icon--pending   { background: #3b82f6; font-weight: 800; padding-bottom: 6px; }
+
+.mollie-status__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.mollie-status__text strong {
+  font-size: 14px;
+  color: #111827;
+  font-weight: 700;
+}
+.mollie-status__text small {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.mollie-gateway__result {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #0c4a6e;
+  animation: fadeIn 240ms var(--ease);
+}
+.mollie-gateway__result-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #0ea5e9;
+  color: #fff;
+  font-weight: 800;
+  font-size: 12px;
+  flex: 0 0 auto;
+}
+.mollie-gateway__result-text strong {
+  color: #0c4a6e;
+  font-weight: 800;
 }
 
 /* ==========================================================================
@@ -2919,7 +2974,7 @@ p { margin: 0 0 16px; }
           </div>
         </div>
         <div class="testing-card__body">
-          <p>Open the subscription's admin page and scroll to the <strong>Schedule</strong> box.</p>
+          <p>On the right-hand side of the WordPress Subscriptions order page, find the <strong>Schedule</strong> box.</p>
           <ol class="testing-steps">
             <li>In the <em>Next Payment</em> field, <strong>set the time</strong> (the <em>HH</em> and <em>MM</em> boxes) to a moment within the next hour — e.g. if it's <em>14:23</em> now, type <em>14:55</em>.</li>
             <li><strong>Click the date field.</strong> The calendar popup defaults to one month ahead — click the <strong>‹</strong> arrow to go back to the current month.</li>
@@ -2928,52 +2983,67 @@ p { margin: 0 0 16px; }
             <li><strong>Click Update</strong> at the top of the subscription page.</li>
           </ol>
           <div class="testing-card__hint">
-            <strong>Result:</strong> the renewal fires in 1 hour instead of waiting for the real renewal date. Patient still receives the reminder email; the rest of the flow plays out as production.
+            <strong>Result:</strong> the renewal fires in 1 hour instead of waiting for the real renewal date.
           </div>
         </div>
       </div>
 
-      <!-- Mollie test card -->
+      <!-- Mollie test gateway -->
       <div class="card testing-card">
         <div class="testing-card__head">
           <div class="testing-card__icon" aria-hidden="true">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 11h20M6 16h4"/></svg>
           </div>
           <div>
-            <h3>Mollie test card (Visa)</h3>
-            <p class="testing-card__sub">Use these details for any sandbox checkout — <strong>never</strong> a real card.</p>
+            <h3>Mollie test gateway</h3>
+            <p class="testing-card__sub">No card numbers — Mollie's sandbox redirects you to a test page where you choose the outcome.</p>
           </div>
         </div>
         <div class="testing-card__body">
-          <div class="test-card" role="img" aria-label="Mollie test Visa card">
-            <div class="test-card__top">
-              <span class="test-card__chip" aria-hidden="true"></span>
-              <span class="test-card__brand">VISA</span>
-            </div>
-            <div class="test-card__number">
-              <span>4543</span><span>4740</span><span>0224</span><span>9996</span>
-            </div>
-            <div class="test-card__row">
-              <div>
-                <div class="test-card__label">Cardholder</div>
-                <div class="test-card__value">TEST USER</div>
+          <p>At checkout, after entering details and clicking pay, the patient is bounced to Mollie's test gateway. Pick the status you want the order to come back with:</p>
+
+          <div class="mollie-gateway" aria-label="Mollie test gateway preview">
+            <div class="mollie-gateway__bar">
+              <div class="mollie-gateway__logo">
+                <span class="mollie-gateway__logo-dot"></span>
+                <span>mollie</span>
               </div>
-              <div>
-                <div class="test-card__label">Expires</div>
-                <div class="test-card__value">Any future</div>
+              <div class="mollie-gateway__url">www.mollie.com/checkout/test-mode</div>
+            </div>
+            <div class="mollie-gateway__body">
+              <div class="mollie-gateway__title">Test mode — choose payment status</div>
+              <div class="mollie-gateway__sub">Click any option to simulate that response.</div>
+              <div class="mollie-gateway__options" role="radiogroup" aria-label="Test payment status">
+                <button type="button" class="mollie-status" data-status="paid">
+                  <span class="mollie-status__icon mollie-status__icon--paid">✓</span>
+                  <span class="mollie-status__text"><strong>Paid</strong><small>Happy path — order processes</small></span>
+                </button>
+                <button type="button" class="mollie-status" data-status="failed">
+                  <span class="mollie-status__icon mollie-status__icon--failed">✕</span>
+                  <span class="mollie-status__text"><strong>Failed</strong><small>Bank declined — sub goes On hold</small></span>
+                </button>
+                <button type="button" class="mollie-status" data-status="cancelled">
+                  <span class="mollie-status__icon mollie-status__icon--cancelled">⊘</span>
+                  <span class="mollie-status__text"><strong>Cancelled</strong><small>Patient backed out at the last second</small></span>
+                </button>
+                <button type="button" class="mollie-status" data-status="expired">
+                  <span class="mollie-status__icon mollie-status__icon--expired">⌛</span>
+                  <span class="mollie-status__text"><strong>Expired</strong><small>Patient walked away from the gateway</small></span>
+                </button>
+                <button type="button" class="mollie-status" data-status="pending">
+                  <span class="mollie-status__icon mollie-status__icon--pending">…</span>
+                  <span class="mollie-status__text"><strong>Pending</strong><small>Bank is still processing — rare</small></span>
+                </button>
               </div>
-              <div>
-                <div class="test-card__label">CVC</div>
-                <div class="test-card__value">Any 3 digits</div>
+              <div class="mollie-gateway__result" id="mollieResult" hidden>
+                <span class="mollie-gateway__result-icon" id="mollieResultIcon">✓</span>
+                <span class="mollie-gateway__result-text" id="mollieResultText">Patient redirected back to your site with status: <strong>Paid</strong>.</span>
               </div>
             </div>
           </div>
-          <button type="button" class="testing-copy" data-copy="4543 4740 0224 9996">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            <span class="testing-copy__label">Copy card number</span>
-          </button>
+
           <div class="testing-card__hint testing-card__hint--alt">
-            <strong>Why this card:</strong> Mollie's sandbox accepts it as a successful payment. To test failed payments, use Mollie's other test card numbers from <a href="https://docs.mollie.com/overview/testing" target="_blank" rel="noopener">their docs</a>.
+            <strong>Tip:</strong> use <em>Paid</em> for the happy renewal path, <em>Failed</em> to test the On hold + retry behaviour, and <em>Cancelled</em> if you want to verify the basket is preserved when patients abandon checkout.
           </div>
         </div>
       </div>
@@ -3477,34 +3547,30 @@ p { margin: 0 0 16px; }
   renderScenario('happy');
   updateTimeline();
 
-  /* ---------- §7 Copy-to-clipboard ---------- */
-  document.querySelectorAll('.testing-copy').forEach(function (btn) {
-    var labelEl = btn.querySelector('.testing-copy__label');
-    var original = labelEl ? labelEl.textContent : 'Copy';
+  /* ---------- §7 Mollie test gateway interaction ---------- */
+  var mollieResult     = document.getElementById('mollieResult');
+  var mollieResultIcon = document.getElementById('mollieResultIcon');
+  var mollieResultText = document.getElementById('mollieResultText');
+
+  var MOLLIE_OUTCOMES = {
+    paid:      { icon: '✓', bg: '#10b981', narrative: 'Patient redirected back to your site with status: <strong>Paid</strong>. Order processes normally — Processing → Completed once dispatched.' },
+    failed:    { icon: '✕', bg: '#ef4444', narrative: 'Returned with status: <strong>Failed</strong>. Subscription flips to <strong>On hold</strong>; payment retry kicks in per your gateway settings.' },
+    cancelled: { icon: '⊘', bg: '#6b7280', narrative: 'Returned with status: <strong>Cancelled</strong>. The cart is preserved so the patient can try again.' },
+    expired:   { icon: '⌛', bg: '#f59e0b', narrative: 'Returned with status: <strong>Expired</strong> after the test gateway window timed out. Equivalent to Cancelled for your flow.' },
+    pending:   { icon: '…', bg: '#3b82f6', narrative: 'Returned with status: <strong>Pending</strong>. Order sits in <strong>Pending payment</strong> until Mollie sends a webhook with the final status.' }
+  };
+
+  document.querySelectorAll('.mollie-status').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var text = btn.getAttribute('data-copy') || '';
-      var done = function () {
-        btn.classList.add('is-copied');
-        if (labelEl) labelEl.textContent = '✓ Copied';
-        setTimeout(function () {
-          btn.classList.remove('is-copied');
-          if (labelEl) labelEl.textContent = original;
-        }, 1800);
-      };
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(done).catch(function () { done(); });
-      } else {
-        // Fallback for older browsers
-        var ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        try { document.execCommand('copy'); } catch (e) {}
-        document.body.removeChild(ta);
-        done();
-      }
+      var status = btn.getAttribute('data-status');
+      var info = MOLLIE_OUTCOMES[status];
+      if (!info || !mollieResult) return;
+      document.querySelectorAll('.mollie-status').forEach(function (b) { b.classList.remove('is-selected'); });
+      btn.classList.add('is-selected');
+      mollieResultIcon.textContent = info.icon;
+      mollieResultIcon.style.background = info.bg;
+      mollieResultText.innerHTML = info.narrative;
+      mollieResult.hidden = false;
     });
   });
 
