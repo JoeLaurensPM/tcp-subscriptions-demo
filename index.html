@@ -2018,6 +2018,393 @@ p { margin: 0 0 16px; }
   font-size: 13px;
 }
 
+/* Schedule demo (Next Payment trick) */
+.schedule-demo {
+  position: relative;
+  margin-top: 14px;
+}
+.schedule-guide {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: linear-gradient(135deg, rgba(255,39,183,0.08), rgba(152,0,101,0.05));
+  border: 1px solid rgba(255,39,183,0.25);
+  border-radius: 10px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  flex-wrap: wrap;
+  transition: background 200ms ease;
+}
+.schedule-guide.is-done {
+  background: linear-gradient(135deg, rgba(74,158,83,0.12), rgba(74,158,83,0.05));
+  border-color: rgba(74,158,83,0.3);
+}
+.schedule-guide__num {
+  flex: 0 0 auto;
+  padding: 4px 12px;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff;
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+.schedule-guide.is-done .schedule-guide__num {
+  background: var(--status-active);
+}
+.schedule-guide__text strong { color: var(--navy); }
+.schedule-guide__text em {
+  background: rgba(255,39,183,0.12);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-style: normal;
+  color: var(--navy);
+  font-weight: 600;
+}
+
+/* Mocked WP admin "Schedule" metabox */
+.schedule-box {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+  color: #1d2327;
+}
+.schedule-box__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid #c3c4c7;
+  background: #fff;
+}
+.schedule-box__title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #1d2327;
+}
+.schedule-box__chev {
+  display: inline-flex;
+  gap: 6px;
+  color: #787c82;
+}
+.schedule-box__body { padding: 14px 16px 12px; }
+
+.sch-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+.sch-row--block { display: block; }
+.sch-row--block .sch-label { display: block; margin-bottom: 6px; }
+.sch-label {
+  font-weight: 700;
+  color: #1d2327;
+  min-width: 76px;
+}
+.sch-link { color: #2271b1; cursor: text; }
+.sch-muted { color: #50575e; }
+.sch-select {
+  padding: 2px 6px;
+  border: 1px solid #8c8f94;
+  border-radius: 3px;
+  background: #fff;
+  font-size: 13px;
+  color: #2c3338;
+  min-height: 26px;
+}
+.sch-datetime {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.sch-input {
+  padding: 4px 8px;
+  border: 1px solid #8c8f94;
+  border-radius: 3px;
+  background: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  color: #2c3338;
+  text-align: center;
+  min-height: 28px;
+}
+.sch-input--date { width: 110px; cursor: pointer; }
+.sch-input--time { width: 38px; }
+.sch-input--date:not([disabled]):hover { border-color: #2271b1; }
+.sch-input:focus { border-color: #2271b1; outline: 2px solid rgba(34,113,177,0.2); outline-offset: -1px; }
+.sch-input[disabled],
+.sch-input[readonly]:disabled { background: #f6f7f7; color: #a7aaad; cursor: default; }
+.sch-at, .sch-colon { color: #50575e; font-weight: 600; }
+.sch-datetime--empty .sch-input { color: #a7aaad; }
+
+/* Calendar popup (mimics jQuery UI / browser native date picker) */
+.cal-popup {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 5;
+  width: 280px;
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  animation: calIn 180ms var(--ease);
+}
+@keyframes calIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: #f0f0f1;
+  border-bottom: 1px solid #dcdcde;
+}
+.cal-month {
+  font-weight: 700;
+  font-size: 13px;
+  color: #1d2327;
+}
+.cal-nav {
+  width: 26px; height: 26px;
+  display: grid; place-items: center;
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2271b1;
+  line-height: 1;
+}
+.cal-nav:hover { background: #f0f0f1; }
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 8px;
+  gap: 2px;
+}
+.cal-dlbl {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #50575e;
+  padding: 4px 0;
+}
+.cal-cell {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  color: #1d2327;
+  font-weight: 600;
+  transition: background 120ms ease;
+}
+.cal-cell:hover:not(:disabled):not(.cal-cell--past) {
+  background: #2271b1;
+  color: #fff;
+}
+.cal-cell--empty,
+.cal-cell--past {
+  color: #c3c4c7;
+  cursor: default;
+}
+.cal-cell--past:hover { background: transparent; color: #c3c4c7; }
+.cal-cell--today {
+  border: 2px solid #2271b1;
+  color: #2271b1;
+}
+.cal-cell--today.cal-cell--past { border-color: #c3c4c7; color: #c3c4c7; }
+.cal-cell--today.is-hint {
+  animation: cellHint 1.6s ease-in-out infinite;
+}
+@keyframes cellHint {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,39,183,0.5); }
+  50%      { box-shadow: 0 0 0 6px rgba(255,39,183,0); }
+}
+.cal-foot {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-top: 1px solid #dcdcde;
+  background: #f6f7f7;
+}
+.cal-foot-btn {
+  padding: 5px 14px;
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: #50575e;
+  cursor: pointer;
+}
+.cal-foot-btn:hover:not(:disabled) { background: #f0f0f1; }
+.cal-foot-btn:disabled { opacity: 0.55; cursor: default; }
+.cal-foot-btn--primary {
+  background: #1d2327;
+  color: #fff;
+  border-color: #1d2327;
+}
+.cal-foot-btn--primary:hover:not(:disabled) { background: #2c3338; }
+
+/* Hint pulses on the elements the user should click next */
+.is-hint-target { animation: hintTargetPulse 1.6s ease-in-out infinite; }
+@keyframes hintTargetPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,39,183,0.5); }
+  50%      { box-shadow: 0 0 0 5px rgba(255,39,183,0); }
+}
+.sch-input.is-hint-target { border-color: var(--pink); }
+#calPrev.is-hint-target { border-color: var(--pink); color: var(--pink); }
+
+/* Validation modal (Chrome-style alert overlay) */
+.val-modal {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 40px;
+  background: rgba(15, 17, 21, 0.4);
+  backdrop-filter: blur(2px);
+  animation: valFade 180ms var(--ease);
+}
+@keyframes valFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.val-modal__panel {
+  width: min(420px, 92%);
+  background: #2a2c30;
+  color: #f5f5f7;
+  border-radius: 8px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+  padding: 20px 22px 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+.val-modal__url {
+  font-size: 13px;
+  font-weight: 600;
+  color: #f5f5f7;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.val-modal__msg {
+  font-size: 14px;
+  color: #f5f5f7;
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+.val-modal__ok {
+  display: block;
+  margin-left: auto;
+  padding: 8px 22px;
+  background: #b6d7ff;
+  color: #1f4d8c;
+  border: none;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  animation: valOkPulse 1.6s ease-in-out infinite;
+}
+.val-modal__ok:hover {
+  background: #a0caff;
+}
+@keyframes valOkPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(182,215,255,0.6); }
+  50%      { box-shadow: 0 0 0 8px rgba(182,215,255,0); }
+}
+
+/* Update + reset action row */
+.schedule-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.schedule-update {
+  padding: 10px 22px;
+  background: #2271b1;
+  color: #fff;
+  border: 1px solid #2271b1;
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 200ms ease, transform 200ms ease;
+}
+.schedule-update:hover:not(:disabled) {
+  background: #135e96;
+  transform: translateY(-1px);
+}
+.schedule-update:disabled {
+  background: #d1d5db;
+  border-color: #d1d5db;
+  cursor: default;
+}
+.schedule-update.is-hint-target {
+  animation: hintTargetPulse 1.6s ease-in-out infinite;
+  border-color: var(--pink);
+  background: var(--pink);
+}
+.schedule-reset {
+  padding: 6px 14px;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.schedule-reset:hover { color: var(--navy); border-color: var(--navy); }
+
+/* Done state */
+.schedule-done {
+  margin-top: 16px;
+  padding: 24px;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(74,158,83,0.08), rgba(230,247,254,0.6));
+  border: 1px solid rgba(74,158,83,0.3);
+  border-radius: 10px;
+  animation: fadeIn 320ms var(--ease);
+}
+.schedule-done svg { color: var(--status-active); margin: 0 auto 10px; display: block; }
+.schedule-done h4 { margin: 0 0 6px; color: var(--status-active); }
+.schedule-done p {
+  margin: 0;
+  color: var(--text);
+  font-size: 14px;
+}
+.schedule-done strong { color: var(--navy); }
+
 /* Test credit card visual */
 .test-card {
   position: relative;
@@ -3074,14 +3461,99 @@ p { margin: 0 0 16px; }
           </div>
         </div>
         <div class="testing-card__body">
-          <p>On the right-hand side of the WordPress Subscriptions order page, find the <strong>Schedule</strong> box.</p>
-          <ol class="testing-steps">
-            <li>In the <em>Next Payment</em> field, <strong>set the time</strong> (the <em>HH</em> and <em>MM</em> boxes) to a moment within the next hour — e.g. if it's <em>14:23</em> now, type <em>14:55</em>.</li>
-            <li><strong>Click the date field.</strong> The calendar popup defaults to one month ahead — click the <strong>‹</strong> arrow to go back to the current month.</li>
-            <li><strong>Pick today's date.</strong> A browser popup will appear: <em>"Please enter a date at least one hour into the future."</em></li>
-            <li><strong>Click OK.</strong> The field auto-snaps to exactly one hour from now.</li>
-            <li><strong>Click Update</strong> at the top of the subscription page.</li>
-          </ol>
+          <p>On the right-hand side of the WordPress Subscriptions order page, you'll find the <strong>Schedule</strong> box. Click through the demo below to see the trick.</p>
+
+          <div class="schedule-demo" id="scheduleDemo">
+
+            <div class="schedule-guide" id="scheduleGuide" aria-live="polite">
+              <span class="schedule-guide__num">Step 1</span>
+              <span class="schedule-guide__text">In the <em>Next Payment</em> row, set the time (the <strong>HH</strong> and <strong>MM</strong> boxes) to within the next hour. Click and type a value.</span>
+            </div>
+
+            <div class="schedule-box">
+              <div class="schedule-box__head">
+                <span class="schedule-box__title">Schedule</span>
+                <span class="schedule-box__chev" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>
+                </span>
+              </div>
+              <div class="schedule-box__body">
+                <div class="sch-row">
+                  <span class="sch-label">Payment:</span>
+                  <select class="sch-select" disabled aria-label="Interval count"><option>every</option></select>
+                  <select class="sch-select" disabled aria-label="Interval unit"><option>month</option></select>
+                </div>
+                <div class="sch-row">
+                  <span class="sch-label">Start Date:</span>
+                  <span class="sch-link">1 day ago</span>
+                </div>
+                <div class="sch-row">
+                  <span class="sch-label">Trial End:</span>
+                  <span class="sch-muted">-</span>
+                </div>
+                <div class="sch-row sch-row--block">
+                  <span class="sch-label">Next Payment:</span>
+                  <div class="sch-datetime sch-datetime--hostspace" id="schDateRow">
+                    <input type="text" id="schDate" class="sch-input sch-input--date" readonly aria-label="Next payment date" />
+                    <span class="sch-at">@</span>
+                    <input type="text" id="schHH" maxlength="2" class="sch-input sch-input--time" inputmode="numeric" aria-label="Hour" />
+                    <span class="sch-colon">:</span>
+                    <input type="text" id="schMM" maxlength="2" class="sch-input sch-input--time" inputmode="numeric" aria-label="Minute" />
+
+                    <div class="cal-popup" id="calPopup" role="dialog" aria-label="Date picker" hidden>
+                      <div class="cal-head">
+                        <button type="button" class="cal-nav" id="calPrev" aria-label="Previous month">‹</button>
+                        <span class="cal-month" id="calMonth">May 2026</span>
+                        <button type="button" class="cal-nav" id="calNext" aria-label="Next month">›</button>
+                      </div>
+                      <div class="cal-grid" id="calGrid" role="grid"></div>
+                      <div class="cal-foot">
+                        <button type="button" class="cal-foot-btn" disabled>Today</button>
+                        <button type="button" class="cal-foot-btn cal-foot-btn--primary" id="calDone">Done</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="sch-row sch-row--block">
+                  <span class="sch-label">End Date:</span>
+                  <div class="sch-datetime sch-datetime--empty">
+                    <input type="text" class="sch-input sch-input--date" placeholder="YYYY-MM-DD" disabled />
+                    <span class="sch-at">@</span>
+                    <input type="text" class="sch-input sch-input--time" placeholder="HH" disabled />
+                    <span class="sch-colon">:</span>
+                    <input type="text" class="sch-input sch-input--time" placeholder="MM" disabled />
+                  </div>
+                </div>
+                <div class="sch-row">
+                  <span class="sch-label">Timezone:</span>
+                  <span class="sch-muted">Europe/London</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="schedule-actions">
+              <button type="button" class="schedule-update" id="schUpdate" disabled>Update</button>
+              <button type="button" class="schedule-reset" id="schReset">↻ Reset demo</button>
+            </div>
+
+            <div class="val-modal" id="valModal" role="alertdialog" aria-labelledby="valModalUrl" hidden>
+              <div class="val-modal__panel">
+                <div class="val-modal__url" id="valModalUrl">tcp.pharmacymentordev.com says</div>
+                <div class="val-modal__msg">Please enter a date at least one hour into the future.</div>
+                <button type="button" class="val-modal__ok" id="valOk">OK</button>
+              </div>
+            </div>
+
+            <div class="schedule-done" id="schDone" hidden>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>
+              <h4>Subscription updated</h4>
+              <p>Renewal will fire at <strong id="schDoneTime">15:30 today</strong> instead of in a month.</p>
+            </div>
+
+          </div>
+
           <div class="testing-card__hint">
             <strong>Result:</strong> the renewal fires in 1 hour instead of waiting for the real renewal date.
           </div>
@@ -3631,6 +4103,241 @@ p { margin: 0 0 16px; }
 
   renderScenario('happy');
   updateTimeline();
+
+  /* ---------- §7 Schedule demo (Next Payment trick) ---------- */
+  (function () {
+    var demo = document.getElementById('scheduleDemo');
+    if (!demo) return;
+
+    var schDate    = document.getElementById('schDate');
+    var schHH      = document.getElementById('schHH');
+    var schMM      = document.getElementById('schMM');
+    var calPopup   = document.getElementById('calPopup');
+    var calMonthEl = document.getElementById('calMonth');
+    var calGrid    = document.getElementById('calGrid');
+    var calPrev    = document.getElementById('calPrev');
+    var calNext    = document.getElementById('calNext');
+    var calDone    = document.getElementById('calDone');
+    var valModal   = document.getElementById('valModal');
+    var valOk      = document.getElementById('valOk');
+    var schUpdate  = document.getElementById('schUpdate');
+    var schReset   = document.getElementById('schReset');
+    var schDone    = document.getElementById('schDone');
+    var schDoneTime = document.getElementById('schDoneTime');
+    var guide      = document.getElementById('scheduleGuide');
+
+    var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
+    var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var dayLabels = ['M','T','W','T','F','S','S'];
+
+    // Initial: Next Payment ~1 month from now (matches a real subscription)
+    function initialDate() {
+      var d = new Date();
+      d.setDate(d.getDate() + 29);
+      return { y: d.getFullYear(), m: d.getMonth(), d: d.getDate() };
+    }
+
+    var state;
+    function reset() {
+      var init = initialDate();
+      state = {
+        timeChanged: false,
+        calOpen: false,
+        calMonth: init.m,
+        calYear: init.y,
+        todayPicked: false,
+        valSeen: false,
+        updated: false
+      };
+      schDate.value = init.y + '-' + pad(init.m + 1) + '-' + pad(init.d);
+      schHH.value = '17';
+      schMM.value = '00';
+      schUpdate.disabled = true;
+      schDone.hidden = true;
+      valModal.hidden = true;
+      calPopup.hidden = true;
+      schUpdate.classList.remove('is-hint-target');
+      sync();
+    }
+
+    function sync() {
+      // Step indicator content
+      var html;
+      if (state.updated) {
+        html = '<span class="schedule-guide__num">✓ Done</span>'
+             + '<span class="schedule-guide__text">The subscription is saved with a 1-hour countdown to renewal.</span>';
+        guide.classList.add('is-done');
+      } else if (state.todayPicked) {
+        html = '<span class="schedule-guide__num">Step 5</span>'
+             + '<span class="schedule-guide__text">Click <strong>Update</strong> to save the new schedule.</span>';
+        guide.classList.remove('is-done');
+      } else if (state.valSeen) {
+        html = '<span class="schedule-guide__num">Step 4</span>'
+             + '<span class="schedule-guide__text">Click <strong>OK</strong> on the popup. The Next Payment field will auto-snap to exactly one hour from now.</span>';
+        guide.classList.remove('is-done');
+      } else if (state.calOpen) {
+        var now = new Date();
+        if (state.calMonth === now.getMonth() && state.calYear === now.getFullYear()) {
+          html = '<span class="schedule-guide__num">Step 3</span>'
+               + '<span class="schedule-guide__text">Click <strong>today\'s date</strong> in the calendar.</span>';
+        } else {
+          html = '<span class="schedule-guide__num">Step 2</span>'
+               + '<span class="schedule-guide__text">The calendar opens at next month. Click the <strong>‹</strong> arrow to go back to the current month.</span>';
+        }
+        guide.classList.remove('is-done');
+      } else if (state.timeChanged) {
+        html = '<span class="schedule-guide__num">Step 2</span>'
+             + '<span class="schedule-guide__text">Click the <strong>date field</strong> (Next Payment) to open the calendar.</span>';
+        guide.classList.remove('is-done');
+      } else {
+        html = '<span class="schedule-guide__num">Step 1</span>'
+             + '<span class="schedule-guide__text">In the <em>Next Payment</em> row, set the time (the <strong>HH</strong> and <strong>MM</strong> boxes) to within the next hour. Click and type a value.</span>';
+        guide.classList.remove('is-done');
+      }
+      guide.innerHTML = html;
+
+      // Hint targets
+      [schHH, schMM, schDate, calPrev, schUpdate].forEach(function (el) { el && el.classList.remove('is-hint-target'); });
+      var todayCell = calGrid.querySelector('.cal-cell--today');
+      if (todayCell) todayCell.classList.remove('is-hint');
+
+      if (state.updated) {
+        // nothing
+      } else if (state.todayPicked) {
+        schUpdate.classList.add('is-hint-target');
+      } else if (state.calOpen) {
+        var now = new Date();
+        if (state.calMonth === now.getMonth() && state.calYear === now.getFullYear()) {
+          if (todayCell) todayCell.classList.add('is-hint');
+        } else {
+          calPrev.classList.add('is-hint-target');
+        }
+      } else if (state.timeChanged) {
+        schDate.classList.add('is-hint-target');
+      } else {
+        schHH.classList.add('is-hint-target');
+        schMM.classList.add('is-hint-target');
+      }
+    }
+
+    function renderCalendar() {
+      calMonthEl.textContent = monthNames[state.calMonth] + ' ' + state.calYear;
+      var html = '';
+      dayLabels.forEach(function (d) { html += '<span class="cal-dlbl">' + d + '</span>'; });
+      // Monday-first: JS getDay() returns 0=Sun..6=Sat, convert to 0=Mon..6=Sun
+      var first = new Date(state.calYear, state.calMonth, 1).getDay();
+      var offset = (first + 6) % 7;
+      var daysInMonth = new Date(state.calYear, state.calMonth + 1, 0).getDate();
+      var now = new Date();
+      var ty = now.getFullYear(), tm = now.getMonth(), td = now.getDate();
+      for (var i = 0; i < offset; i++) html += '<span class="cal-cell cal-cell--empty"></span>';
+      for (var d = 1; d <= daysInMonth; d++) {
+        var isToday = (state.calYear === ty && state.calMonth === tm && d === td);
+        var isPast = false;
+        if (state.calYear < ty) isPast = true;
+        else if (state.calYear === ty && state.calMonth < tm) isPast = true;
+        else if (state.calYear === ty && state.calMonth === tm && d < td) isPast = true;
+        var cls = 'cal-cell';
+        if (isToday) cls += ' cal-cell--today';
+        if (isPast) cls += ' cal-cell--past';
+        html += '<button type="button" class="' + cls + '" data-day="' + d + '"' + (isPast ? ' disabled' : '') + '>' + d + '</button>';
+      }
+      calGrid.innerHTML = html;
+    }
+
+    function openCalendar() {
+      var parts = schDate.value.split('-');
+      state.calYear = parseInt(parts[0], 10);
+      state.calMonth = parseInt(parts[1], 10) - 1;
+      state.calOpen = true;
+      calPopup.hidden = false;
+      renderCalendar();
+      sync();
+    }
+
+    function closeCalendar() {
+      state.calOpen = false;
+      calPopup.hidden = true;
+      sync();
+    }
+
+    function pickDay(day) {
+      var now = new Date();
+      var picked = new Date(state.calYear, state.calMonth, day, parseInt(schHH.value || '0', 10), parseInt(schMM.value || '0', 10));
+      var oneHourFromNow = now.getTime() + 60 * 60 * 1000;
+      if (picked.getTime() < oneHourFromNow) {
+        // Trigger validation popup (the educational moment)
+        valModal.hidden = false;
+        state.valSeen = true;
+        state.calOpen = false;
+        calPopup.hidden = true;
+        sync();
+      } else {
+        // Just set the date and close
+        schDate.value = state.calYear + '-' + pad(state.calMonth + 1) + '-' + pad(day);
+        closeCalendar();
+      }
+    }
+
+    function onValOk() {
+      // Auto-snap to exactly 1 hour from now
+      var snap = new Date(Date.now() + 60 * 60 * 1000);
+      schDate.value = snap.getFullYear() + '-' + pad(snap.getMonth() + 1) + '-' + pad(snap.getDate());
+      schHH.value = pad(snap.getHours());
+      schMM.value = pad(snap.getMinutes());
+      valModal.hidden = true;
+      state.todayPicked = true;
+      schUpdate.disabled = false;
+      sync();
+    }
+
+    // Event wiring
+    function onTimeChange() {
+      state.timeChanged = true;
+      sync();
+    }
+    schHH.addEventListener('input', onTimeChange);
+    schMM.addEventListener('input', onTimeChange);
+
+    schDate.addEventListener('click', function () {
+      if (state.updated || state.calOpen) return;
+      openCalendar();
+    });
+
+    calPrev.addEventListener('click', function () {
+      state.calMonth--;
+      if (state.calMonth < 0) { state.calMonth = 11; state.calYear--; }
+      renderCalendar();
+      sync();
+    });
+    calNext.addEventListener('click', function () {
+      state.calMonth++;
+      if (state.calMonth > 11) { state.calMonth = 0; state.calYear++; }
+      renderCalendar();
+      sync();
+    });
+    calGrid.addEventListener('click', function (e) {
+      var btn = e.target.closest('.cal-cell');
+      if (!btn || btn.disabled || btn.classList.contains('cal-cell--empty') || btn.classList.contains('cal-cell--past')) return;
+      pickDay(parseInt(btn.getAttribute('data-day'), 10));
+    });
+    calDone.addEventListener('click', closeCalendar);
+    valOk.addEventListener('click', onValOk);
+
+    schUpdate.addEventListener('click', function () {
+      if (schUpdate.disabled) return;
+      state.updated = true;
+      schDoneTime.textContent = schHH.value + ':' + schMM.value + ' today';
+      schDone.hidden = false;
+      schUpdate.disabled = true;
+      sync();
+    });
+
+    schReset.addEventListener('click', reset);
+
+    // Initialize
+    reset();
+  })();
 
   /* ---------- §7 Copy-to-clipboard ---------- */
   document.querySelectorAll('.testing-copy').forEach(function (btn) {
