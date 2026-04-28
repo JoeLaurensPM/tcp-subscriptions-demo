@@ -1944,8 +1944,12 @@ p { margin: 0 0 16px; }
 
 .testing-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
   gap: 20px;
+  align-items: start;
+}
+@media (max-width: 960px) {
+  .testing-grid { grid-template-columns: 1fr; }
 }
 
 .testing-card { padding: 28px; }
@@ -3500,7 +3504,7 @@ p { margin: 0 0 16px; }
     <div class="testing-grid">
 
       <!-- Mollie test card (use first to place a test order) -->
-      <div class="card testing-card testing-card--narrow">
+      <div class="card testing-card">
         <div class="testing-card__head">
           <div class="testing-card__icon" aria-hidden="true">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 11h20M6 16h4"/></svg>
