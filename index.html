@@ -4157,8 +4157,7 @@ p { margin: 0 0 16px; }
         showMcExample: true,
         steps: [
           { cls: '',     title: 'Day −' + days + ' · First email', body: 'Patient receives the renewal reminder. Doesn\'t act.' },
-          { cls: 'warn', title: 'Day −1 · Urgent reminder', body: 'A second, urgent reminder email is sent.' },
-          { cls: 'warn', title: 'Day 0 · Renewal fires', body: 'Renewal order created — no consultation attached.' },
+          { cls: 'warn', title: 'Day 0 · Renewal + urgent reminder', body: 'Renewal attempts to fire. No consultation attached, so an urgent reminder email goes out at the same time and the order is created without one.' },
           { cls: 'warn', title: 'On hold + Missing Consultation', body: 'Subscription → <span class="pill pill--hold">On hold</span>. Order → <span class="pill pill--missing">Missing Consultation</span> (filterable at the top of the orders page).' },
           { cls: '',     title: 'Patient acts', body: 'Staff nudges, patient fills the consultation. Order flips to <span class="pill pill--action">Action Required</span> and you get an email.' },
           { cls: 'good', title: 'Action Required → Processing', body: 'Filter the orders page for <span class="pill pill--action">Action Required</span>, handle the order, and it moves to <span class="pill pill--processing">Processing</span>.' }
