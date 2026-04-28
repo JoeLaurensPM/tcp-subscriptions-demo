@@ -940,6 +940,7 @@ p { margin: 0 0 16px; }
 .pill--cancelled  { background: var(--status-cancel-bg); color: var(--status-cancel); }
 .pill--missing    { background: var(--status-missing-bg); color: var(--status-missing); }
 .pill--processing { background: #dde7ff; color: #1847a3; }
+.pill--action     { background: #ffe9d1; color: #b94a06; }
 
 .tip {
   position: absolute;
@@ -3781,8 +3782,8 @@ p { margin: 0 0 16px; }
           <div class="takeaway__icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
           </div>
-          <h4>"Missing Consultation" is your cue</h4>
-          <p>Filter the orders page for it. Contact the patient, point them to their dashboard, refund if they've gone quiet.</p>
+          <h4>"Missing Consultation" &amp; "Action Required" are your cues</h4>
+          <p>Two filters at the top of the orders page flag work for you. Missing → contact the patient. Action Required → process the order. Refund if they've gone quiet.</p>
         </div>
       </div>
     </div>
@@ -4152,14 +4153,15 @@ p { margin: 0 0 16px; }
       late: {
         title: 'Patient forgets to act',
         icon: '<span class="pill pill--missing">Needs attention</span>',
-        callout: '<strong>Your job:</strong> on the day of renewal (or the day after), contact the patient and direct them to their dashboard to fill the reorder consultation. Once they do, the status flips from <em>Missing Consultation</em> to <em>Processing</em> and you carry on as normal.',
+        callout: '<strong>Your job:</strong> contact the patient on the day of renewal (or the day after) and direct them to their dashboard to fill the reorder consultation. Once they do, the order flips from <em>Missing Consultation</em> to <em>Action Required</em> — and you\'ll get an email letting you know. Handle it from the <em>Action Required</em> filter to move it to Processing. Both filters sit at the top of the orders page; check both regularly.',
         showMcExample: true,
         steps: [
           { cls: '',     title: 'Day −' + days + ' · First email', body: 'Patient receives the renewal reminder. Doesn\'t act.' },
           { cls: 'warn', title: 'Day −1 · Urgent reminder', body: 'A second, urgent reminder email is sent.' },
           { cls: 'warn', title: 'Day 0 · Renewal fires', body: 'Renewal order created — no consultation attached.' },
           { cls: 'warn', title: 'On hold + Missing Consultation', body: 'Subscription → <span class="pill pill--hold">On hold</span>. Order → <span class="pill pill--missing">Missing Consultation</span> (filterable at the top of the orders page).' },
-          { cls: 'good', title: 'Staff nudges patient', body: 'You reach out, patient fills the consultation, status flips to <span class="pill pill--processing">Processing</span>.' }
+          { cls: '',     title: 'Patient acts', body: 'Staff nudges, patient fills the consultation. Order flips to <span class="pill pill--action">Action Required</span> and you get an email.' },
+          { cls: 'good', title: 'Action Required → Processing', body: 'Filter the orders page for <span class="pill pill--action">Action Required</span>, handle the order, and it moves to <span class="pill pill--processing">Processing</span>.' }
         ]
       },
       cancel: {
