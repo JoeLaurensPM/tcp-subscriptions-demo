@@ -1917,6 +1917,212 @@ p { margin: 0 0 16px; }
 }
 
 /* ==========================================================================
+   §7 — Testing toolkit
+   ========================================================================== */
+.section--testing {
+  background:
+    repeating-linear-gradient(
+      135deg,
+      transparent 0,
+      transparent 40px,
+      rgba(176, 125, 0, 0.025) 40px,
+      rgba(176, 125, 0, 0.025) 80px
+    ),
+    #fffdf6;
+}
+.section__num--testing {
+  background: linear-gradient(135deg, #b07d00, #d39400);
+  box-shadow: 0 6px 18px rgba(176, 125, 0, 0.25);
+}
+.eyebrow--testing {
+  background: #b07d00;
+  color: #fff;
+}
+
+.testing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 760px) {
+  .testing-grid { grid-template-columns: 1fr; }
+}
+
+.testing-card { padding: 28px; }
+.testing-card__head {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+.testing-card__icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #b07d00, #d39400);
+  color: #fff;
+  display: grid; place-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(176, 125, 0, 0.25);
+}
+.testing-card__head h3 {
+  margin: 0 0 4px;
+  font-size: 19px;
+}
+.testing-card__sub {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+.testing-card__sub strong { color: var(--navy); }
+.testing-card__body p { font-size: 14px; line-height: 1.55; }
+.testing-card__hint {
+  margin-top: 18px;
+  padding: 14px 16px;
+  background: rgba(176, 125, 0, 0.08);
+  border-left: 3px solid #b07d00;
+  border-radius: 6px;
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.55;
+}
+.testing-card__hint strong { color: var(--navy); }
+.testing-card__hint--alt {
+  background: var(--bg-soft);
+  border-left-color: var(--blue);
+}
+
+.testing-steps {
+  padding-left: 20px;
+  margin: 12px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.testing-steps li {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+  padding-left: 4px;
+}
+.testing-steps li::marker {
+  color: #b07d00;
+  font-weight: 800;
+}
+.testing-steps strong { color: var(--navy); }
+.testing-steps em {
+  background: rgba(176, 125, 0, 0.12);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-style: normal;
+  color: var(--navy);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+/* Test credit card visual */
+.test-card {
+  position: relative;
+  padding: 24px 26px;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 90% -20%, rgba(255, 39, 183, 0.4), transparent 55%),
+    radial-gradient(circle at -20% 120%, rgba(0, 79, 178, 0.35), transparent 55%),
+    linear-gradient(135deg, #0a1f4f 0%, #060349 100%);
+  color: #fff;
+  font-family: 'Courier New', ui-monospace, monospace;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  min-height: 195px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.test-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.test-card__chip {
+  display: inline-block;
+  width: 40px;
+  height: 30px;
+  background: linear-gradient(135deg, #d4af37 0%, #b8961e 60%, #d4af37 100%);
+  border-radius: 5px;
+  position: relative;
+}
+.test-card__chip::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+.test-card__brand {
+  font-family: Arial, sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 24px;
+  letter-spacing: 0.06em;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.test-card__number {
+  display: flex;
+  gap: 14px;
+  font-size: 19px;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  margin: 18px 0;
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+}
+.test-card__row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.test-card__label {
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 3px;
+}
+.test-card__value {
+  font-family: 'Courier New', ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.testing-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 16px;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 200ms var(--ease), transform 200ms var(--ease);
+}
+.testing-copy:hover {
+  background: var(--purple);
+  transform: translateY(-1px);
+}
+.testing-copy.is-copied {
+  background: var(--status-active);
+}
+
+/* ==========================================================================
    CLOSE
    ========================================================================== */
 .takeaways {
@@ -2078,11 +2284,11 @@ p { margin: 0 0 16px; }
 
     <div class="hero__stats" role="list">
       <div class="hero__stat" role="listitem">
-        <div class="hero__stat-num">6</div>
+        <div class="hero__stat-num">7</div>
         <div class="hero__stat-label">sections</div>
       </div>
       <div class="hero__stat" role="listitem">
-        <div class="hero__stat-num">~8</div>
+        <div class="hero__stat-num">~10</div>
         <div class="hero__stat-label">minute read</div>
       </div>
       <div class="hero__stat" role="listitem">
@@ -2120,6 +2326,7 @@ p { margin: 0 0 16px; }
     <a href="#s4">4. Upgrading</a>
     <a href="#s5">5. Reminders</a>
     <a href="#s6">6. Renewals</a>
+    <a href="#s7">7. Testing</a>
   </div>
 </nav>
 
@@ -2148,6 +2355,9 @@ p { margin: 0 0 16px; }
     </a>
     <a class="nav-rail__dot" href="#s6" data-target="s6">
       <span class="nav-rail__label">6. Renewals</span>
+    </a>
+    <a class="nav-rail__dot" href="#s7" data-target="s7">
+      <span class="nav-rail__label">7. Testing toolkit</span>
     </a>
   </div>
 </aside>
@@ -2680,6 +2890,99 @@ p { margin: 0 0 16px; }
 </section>
 
 <!-- ==========================================================================
+     §7 — TESTING TOOLKIT
+     ========================================================================== -->
+<section class="section section--testing" id="s7" aria-labelledby="s7-title">
+  <div class="container">
+    <div class="section__head">
+      <div class="section__num section__num--testing">07</div>
+      <span class="eyebrow eyebrow--testing">For testing only</span>
+      <h2 id="s7-title">Testing toolkit</h2>
+      <p class="lead">
+        Two shortcuts to make testing painless. Once the plugin is live and stable, these become
+        background tricks rather than daily tools — but during the testing window, they save you a
+        month of waiting.
+      </p>
+    </div>
+
+    <div class="testing-grid">
+
+      <!-- Time-shift trick -->
+      <div class="card testing-card">
+        <div class="testing-card__head">
+          <div class="testing-card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div>
+            <h3>Skip the 1-month wait</h3>
+            <p class="testing-card__sub">Force a renewal to fire in <strong>1 hour</strong> instead of a month.</p>
+          </div>
+        </div>
+        <div class="testing-card__body">
+          <p>On any subscription's admin page, find the <strong>Schedule</strong> box on the right.</p>
+          <ol class="testing-steps">
+            <li>In the <em>Next Payment</em> field, <strong>set the time</strong> (the <em>HH</em> and <em>MM</em> boxes) to a moment within the next hour — e.g. if it's <em>14:23</em> now, type <em>14:55</em>.</li>
+            <li><strong>Click the date field.</strong> The calendar popup defaults to one month ahead — click the <strong>‹</strong> arrow to go back to the current month.</li>
+            <li><strong>Pick today's date.</strong> A browser popup will appear: <em>"Please enter a date at least one hour into the future."</em></li>
+            <li><strong>Click OK.</strong> The field auto-snaps to exactly one hour from now.</li>
+            <li><strong>Click Update</strong> at the top of the subscription page.</li>
+          </ol>
+          <div class="testing-card__hint">
+            <strong>Result:</strong> the renewal fires in 1 hour instead of waiting for the real renewal date. Patient still receives the reminder email; the rest of the flow plays out as production.
+          </div>
+        </div>
+      </div>
+
+      <!-- Mollie test card -->
+      <div class="card testing-card">
+        <div class="testing-card__head">
+          <div class="testing-card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 11h20M6 16h4"/></svg>
+          </div>
+          <div>
+            <h3>Mollie test card (Visa)</h3>
+            <p class="testing-card__sub">Use these details for any sandbox checkout — <strong>never</strong> a real card.</p>
+          </div>
+        </div>
+        <div class="testing-card__body">
+          <div class="test-card" role="img" aria-label="Mollie test Visa card">
+            <div class="test-card__top">
+              <span class="test-card__chip" aria-hidden="true"></span>
+              <span class="test-card__brand">VISA</span>
+            </div>
+            <div class="test-card__number">
+              <span>4543</span><span>4740</span><span>0224</span><span>9996</span>
+            </div>
+            <div class="test-card__row">
+              <div>
+                <div class="test-card__label">Cardholder</div>
+                <div class="test-card__value">TEST USER</div>
+              </div>
+              <div>
+                <div class="test-card__label">Expires</div>
+                <div class="test-card__value">Any future</div>
+              </div>
+              <div>
+                <div class="test-card__label">CVC</div>
+                <div class="test-card__value">Any 3 digits</div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="testing-copy" data-copy="4543 4740 0224 9996">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span class="testing-copy__label">Copy card number</span>
+          </button>
+          <div class="testing-card__hint testing-card__hint--alt">
+            <strong>Why this card:</strong> Mollie's sandbox accepts it as a successful payment. To test failed payments, use Mollie's other test card numbers from <a href="https://docs.mollie.com/overview/testing" target="_blank" rel="noopener">their docs</a>.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
      CLOSE
      ========================================================================== -->
 <section class="section" id="close" aria-labelledby="close-title">
@@ -3174,8 +3477,39 @@ p { margin: 0 0 16px; }
   renderScenario('happy');
   updateTimeline();
 
+  /* ---------- §7 Copy-to-clipboard ---------- */
+  document.querySelectorAll('.testing-copy').forEach(function (btn) {
+    var labelEl = btn.querySelector('.testing-copy__label');
+    var original = labelEl ? labelEl.textContent : 'Copy';
+    btn.addEventListener('click', function () {
+      var text = btn.getAttribute('data-copy') || '';
+      var done = function () {
+        btn.classList.add('is-copied');
+        if (labelEl) labelEl.textContent = '✓ Copied';
+        setTimeout(function () {
+          btn.classList.remove('is-copied');
+          if (labelEl) labelEl.textContent = original;
+        }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function () { done(); });
+      } else {
+        // Fallback for older browsers
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+        done();
+      }
+    });
+  });
+
   /* ---------- Sticky nav + progress ---------- */
-  var sections = ['s1', 's2', 's3', 's4', 's5', 's6'].map(function (id) { return document.getElementById(id); });
+  var sections = ['s1', 's2', 's3', 's4', 's5', 's6', 's7'].map(function (id) { return document.getElementById(id); });
   var railDots  = document.querySelectorAll('.nav-rail__dot');
   var railFill  = document.getElementById('railFill');
   var progBar   = document.getElementById('progressFillMobile');
