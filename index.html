@@ -65,6 +65,9 @@ body {
 img { max-width: 100%; display: block; }
 a { color: var(--blue); }
 
+/* Force the hidden attribute to take precedence over any display rules below */
+[hidden] { display: none !important; }
+
 button, input, select {
   font-family: inherit;
   font-size: inherit;
@@ -2419,6 +2422,7 @@ p { margin: 0 0 16px; }
   box-shadow: var(--shadow-md);
   overflow: hidden;
   min-height: 195px;
+  max-width: 460px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -4141,6 +4145,7 @@ p { margin: 0 0 16px; }
     function reset() {
       var init = initialDate();
       state = {
+        timeFocused: false,
         timeChanged: false,
         calOpen: false,
         calMonth: init.m,
@@ -4161,6 +4166,9 @@ p { margin: 0 0 16px; }
     }
 
     function sync() {
+      var now = new Date();
+      var calIsCurrent = state.calOpen && state.calMonth === now.getMonth() && state.calYear === now.getFullYear();
+
       // Step indicator content
       var html;
       if (state.updated) {
@@ -4168,30 +4176,32 @@ p { margin: 0 0 16px; }
              + '<span class="schedule-guide__text">The subscription is saved with a 1-hour countdown to renewal.</span>';
         guide.classList.add('is-done');
       } else if (state.todayPicked) {
-        html = '<span class="schedule-guide__num">Step 5</span>'
+        html = '<span class="schedule-guide__num">Step 7</span>'
              + '<span class="schedule-guide__text">Click <strong>Update</strong> to save the new schedule.</span>';
         guide.classList.remove('is-done');
       } else if (state.valSeen) {
-        html = '<span class="schedule-guide__num">Step 4</span>'
+        html = '<span class="schedule-guide__num">Step 6</span>'
              + '<span class="schedule-guide__text">Click <strong>OK</strong> on the popup. The Next Payment field will auto-snap to exactly one hour from now.</span>';
         guide.classList.remove('is-done');
+      } else if (calIsCurrent) {
+        html = '<span class="schedule-guide__num">Step 5</span>'
+             + '<span class="schedule-guide__text">Click <strong>today\'s date</strong> in the calendar.</span>';
+        guide.classList.remove('is-done');
       } else if (state.calOpen) {
-        var now = new Date();
-        if (state.calMonth === now.getMonth() && state.calYear === now.getFullYear()) {
-          html = '<span class="schedule-guide__num">Step 3</span>'
-               + '<span class="schedule-guide__text">Click <strong>today\'s date</strong> in the calendar.</span>';
-        } else {
-          html = '<span class="schedule-guide__num">Step 2</span>'
-               + '<span class="schedule-guide__text">The calendar opens at next month. Click the <strong>‹</strong> arrow to go back to the current month.</span>';
-        }
+        html = '<span class="schedule-guide__num">Step 4</span>'
+             + '<span class="schedule-guide__text">The calendar opens at next month. Click the <strong>‹</strong> arrow to go back to the current month.</span>';
         guide.classList.remove('is-done');
       } else if (state.timeChanged) {
-        html = '<span class="schedule-guide__num">Step 2</span>'
+        html = '<span class="schedule-guide__num">Step 3</span>'
              + '<span class="schedule-guide__text">Click the <strong>date field</strong> (Next Payment) to open the calendar.</span>';
+        guide.classList.remove('is-done');
+      } else if (state.timeFocused) {
+        html = '<span class="schedule-guide__num">Step 2</span>'
+             + '<span class="schedule-guide__text">Type a time within the next hour — e.g. if it\'s <em>14:23</em> now, type <em>14:55</em>. (Use the <strong>HH</strong> and <strong>MM</strong> boxes.)</span>';
         guide.classList.remove('is-done');
       } else {
         html = '<span class="schedule-guide__num">Step 1</span>'
-             + '<span class="schedule-guide__text">In the <em>Next Payment</em> row, set the time (the <strong>HH</strong> and <strong>MM</strong> boxes) to within the next hour. Click and type a value.</span>';
+             + '<span class="schedule-guide__text">In the <em>Next Payment</em> row, click the <strong>HH</strong> or <strong>MM</strong> box to start.</span>';
         guide.classList.remove('is-done');
       }
       guide.innerHTML = html;
@@ -4202,19 +4212,19 @@ p { margin: 0 0 16px; }
       if (todayCell) todayCell.classList.remove('is-hint');
 
       if (state.updated) {
-        // nothing
+        // no hint
       } else if (state.todayPicked) {
         schUpdate.classList.add('is-hint-target');
+      } else if (state.valSeen) {
+        // OK button has its own pulse
+      } else if (calIsCurrent) {
+        if (todayCell) todayCell.classList.add('is-hint');
       } else if (state.calOpen) {
-        var now = new Date();
-        if (state.calMonth === now.getMonth() && state.calYear === now.getFullYear()) {
-          if (todayCell) todayCell.classList.add('is-hint');
-        } else {
-          calPrev.classList.add('is-hint-target');
-        }
+        calPrev.classList.add('is-hint-target');
       } else if (state.timeChanged) {
         schDate.classList.add('is-hint-target');
       } else {
+        // Steps 1 & 2 both target the time inputs
         schHH.classList.add('is-hint-target');
         schMM.classList.add('is-hint-target');
       }
