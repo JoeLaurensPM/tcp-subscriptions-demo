@@ -2018,7 +2018,107 @@ p { margin: 0 0 16px; }
   font-size: 13px;
 }
 
-/* Mollie test gateway mock */
+/* Test credit card visual */
+.test-card {
+  position: relative;
+  padding: 24px 26px;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 90% -20%, rgba(255, 39, 183, 0.4), transparent 55%),
+    radial-gradient(circle at -20% 120%, rgba(0, 79, 178, 0.35), transparent 55%),
+    linear-gradient(135deg, #0a1f4f 0%, #060349 100%);
+  color: #fff;
+  font-family: 'Courier New', ui-monospace, monospace;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  min-height: 195px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.test-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.test-card__chip {
+  display: inline-block;
+  width: 40px;
+  height: 30px;
+  background: linear-gradient(135deg, #d4af37 0%, #b8961e 60%, #d4af37 100%);
+  border-radius: 5px;
+  position: relative;
+}
+.test-card__chip::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+.test-card__brand {
+  font-family: Arial, sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 24px;
+  letter-spacing: 0.06em;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.test-card__number {
+  display: flex;
+  gap: 14px;
+  font-size: 19px;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  margin: 18px 0;
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+}
+.test-card__row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.test-card__label {
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 3px;
+}
+.test-card__value {
+  font-family: 'Courier New', ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.testing-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 16px;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 200ms var(--ease), transform 200ms var(--ease);
+}
+.testing-copy:hover {
+  background: var(--purple);
+  transform: translateY(-1px);
+}
+.testing-copy.is-copied {
+  background: var(--status-active);
+}
+
+/* Mollie test gateway mock — kept defensive in case re-enabled */
 .mollie-gateway {
   border: 1px solid #d6d8dc;
   border-radius: 8px;
@@ -2988,62 +3088,47 @@ p { margin: 0 0 16px; }
         </div>
       </div>
 
-      <!-- Mollie test gateway -->
+      <!-- Mollie test card -->
       <div class="card testing-card">
         <div class="testing-card__head">
           <div class="testing-card__icon" aria-hidden="true">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 11h20M6 16h4"/></svg>
           </div>
           <div>
-            <h3>Mollie test gateway</h3>
-            <p class="testing-card__sub">No card numbers — Mollie's sandbox redirects you to a test page where you choose the outcome.</p>
+            <h3>Mollie test card (Visa)</h3>
+            <p class="testing-card__sub">Use these details for any sandbox checkout — <strong>never</strong> a real card.</p>
           </div>
         </div>
         <div class="testing-card__body">
-          <p>At checkout, after entering details and clicking pay, the patient is bounced to Mollie's test gateway. Pick the status you want the order to come back with:</p>
-
-          <div class="mollie-gateway" aria-label="Mollie test gateway preview">
-            <div class="mollie-gateway__bar">
-              <div class="mollie-gateway__logo">
-                <span class="mollie-gateway__logo-dot"></span>
-                <span>mollie</span>
-              </div>
-              <div class="mollie-gateway__url">www.mollie.com/checkout/test-mode</div>
+          <div class="test-card" role="img" aria-label="Mollie test Visa card">
+            <div class="test-card__top">
+              <span class="test-card__chip" aria-hidden="true"></span>
+              <span class="test-card__brand">VISA</span>
             </div>
-            <div class="mollie-gateway__body">
-              <div class="mollie-gateway__title">Test mode — choose payment status</div>
-              <div class="mollie-gateway__sub">Click any option to simulate that response.</div>
-              <div class="mollie-gateway__options" role="radiogroup" aria-label="Test payment status">
-                <button type="button" class="mollie-status" data-status="paid">
-                  <span class="mollie-status__icon mollie-status__icon--paid">✓</span>
-                  <span class="mollie-status__text"><strong>Paid</strong><small>Happy path — order processes</small></span>
-                </button>
-                <button type="button" class="mollie-status" data-status="failed">
-                  <span class="mollie-status__icon mollie-status__icon--failed">✕</span>
-                  <span class="mollie-status__text"><strong>Failed</strong><small>Bank declined — sub goes On hold</small></span>
-                </button>
-                <button type="button" class="mollie-status" data-status="cancelled">
-                  <span class="mollie-status__icon mollie-status__icon--cancelled">⊘</span>
-                  <span class="mollie-status__text"><strong>Cancelled</strong><small>Patient backed out at the last second</small></span>
-                </button>
-                <button type="button" class="mollie-status" data-status="expired">
-                  <span class="mollie-status__icon mollie-status__icon--expired">⌛</span>
-                  <span class="mollie-status__text"><strong>Expired</strong><small>Patient walked away from the gateway</small></span>
-                </button>
-                <button type="button" class="mollie-status" data-status="pending">
-                  <span class="mollie-status__icon mollie-status__icon--pending">…</span>
-                  <span class="mollie-status__text"><strong>Pending</strong><small>Bank is still processing — rare</small></span>
-                </button>
+            <div class="test-card__number">
+              <span>4543</span><span>4740</span><span>0224</span><span>9996</span>
+            </div>
+            <div class="test-card__row">
+              <div>
+                <div class="test-card__label">Cardholder</div>
+                <div class="test-card__value">TEST USER</div>
               </div>
-              <div class="mollie-gateway__result" id="mollieResult" hidden>
-                <span class="mollie-gateway__result-icon" id="mollieResultIcon">✓</span>
-                <span class="mollie-gateway__result-text" id="mollieResultText">Patient redirected back to your site with status: <strong>Paid</strong>.</span>
+              <div>
+                <div class="test-card__label">Expires</div>
+                <div class="test-card__value">Any future</div>
+              </div>
+              <div>
+                <div class="test-card__label">CVC</div>
+                <div class="test-card__value">Any 3 digits</div>
               </div>
             </div>
           </div>
-
+          <button type="button" class="testing-copy" data-copy="4543 4740 0224 9996">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span class="testing-copy__label">Copy card number</span>
+          </button>
           <div class="testing-card__hint testing-card__hint--alt">
-            <strong>Tip:</strong> use <em>Paid</em> for the happy renewal path, <em>Failed</em> to test the On hold + retry behaviour, and <em>Cancelled</em> if you want to verify the basket is preserved when patients abandon checkout.
+            <strong>Note:</strong> Mollie's full sandbox flow also redirects to a test gateway where you can pick a different outcome (Failed, Cancelled, Expired). The card details above are for the card-entry step before the gateway.
           </div>
         </div>
       </div>
@@ -3547,30 +3632,33 @@ p { margin: 0 0 16px; }
   renderScenario('happy');
   updateTimeline();
 
-  /* ---------- §7 Mollie test gateway interaction ---------- */
-  var mollieResult     = document.getElementById('mollieResult');
-  var mollieResultIcon = document.getElementById('mollieResultIcon');
-  var mollieResultText = document.getElementById('mollieResultText');
-
-  var MOLLIE_OUTCOMES = {
-    paid:      { icon: '✓', bg: '#10b981', narrative: 'Patient redirected back to your site with status: <strong>Paid</strong>. Order processes normally — Processing → Completed once dispatched.' },
-    failed:    { icon: '✕', bg: '#ef4444', narrative: 'Returned with status: <strong>Failed</strong>. Subscription flips to <strong>On hold</strong>; payment retry kicks in per your gateway settings.' },
-    cancelled: { icon: '⊘', bg: '#6b7280', narrative: 'Returned with status: <strong>Cancelled</strong>. The cart is preserved so the patient can try again.' },
-    expired:   { icon: '⌛', bg: '#f59e0b', narrative: 'Returned with status: <strong>Expired</strong> after the test gateway window timed out. Equivalent to Cancelled for your flow.' },
-    pending:   { icon: '…', bg: '#3b82f6', narrative: 'Returned with status: <strong>Pending</strong>. Order sits in <strong>Pending payment</strong> until Mollie sends a webhook with the final status.' }
-  };
-
-  document.querySelectorAll('.mollie-status').forEach(function (btn) {
+  /* ---------- §7 Copy-to-clipboard ---------- */
+  document.querySelectorAll('.testing-copy').forEach(function (btn) {
+    var labelEl = btn.querySelector('.testing-copy__label');
+    var original = labelEl ? labelEl.textContent : 'Copy';
     btn.addEventListener('click', function () {
-      var status = btn.getAttribute('data-status');
-      var info = MOLLIE_OUTCOMES[status];
-      if (!info || !mollieResult) return;
-      document.querySelectorAll('.mollie-status').forEach(function (b) { b.classList.remove('is-selected'); });
-      btn.classList.add('is-selected');
-      mollieResultIcon.textContent = info.icon;
-      mollieResultIcon.style.background = info.bg;
-      mollieResultText.innerHTML = info.narrative;
-      mollieResult.hidden = false;
+      var text = btn.getAttribute('data-copy') || '';
+      var done = function () {
+        btn.classList.add('is-copied');
+        if (labelEl) labelEl.textContent = '✓ Copied';
+        setTimeout(function () {
+          btn.classList.remove('is-copied');
+          if (labelEl) labelEl.textContent = original;
+        }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function () { done(); });
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+        done();
+      }
     });
   });
 
