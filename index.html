@@ -1946,14 +1946,82 @@ p { margin: 0 0 16px; }
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
   gap: 20px;
-  align-items: start;
+  /* default align-items: stretch — both cards match the tallest's height */
 }
 @media (max-width: 960px) {
   .testing-grid { grid-template-columns: 1fr; }
 }
 
-.testing-card { padding: 28px; }
-.testing-card--narrow { max-width: 580px; }
+.testing-card {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+}
+.testing-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.testing-card--info .testing-card__body {
+  justify-content: center;
+  gap: 18px;
+}
+
+/* Test environment banner */
+.testing-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, rgba(176,125,0,0.12), rgba(176,125,0,0.03));
+  border: 1px solid rgba(176,125,0,0.3);
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+.testing-banner__icon {
+  flex-shrink: 0;
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, #b07d00, #d39400);
+  color: #fff;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 12px rgba(176,125,0,0.25);
+}
+.testing-banner__body {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.testing-banner__body strong { color: var(--navy); }
+.testing-banner__url {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px 3px 12px;
+  background: var(--navy);
+  color: #fff !important;
+  border-radius: 999px;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none !important;
+  vertical-align: middle;
+  margin: 0 2px;
+  transition: background 200ms var(--ease);
+}
+.testing-banner__url:hover { background: var(--purple); }
+.testing-banner__body a:not(.testing-banner__url) {
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: none;
+}
+.testing-banner__body a:not(.testing-banner__url):hover { text-decoration: underline; }
+@media (max-width: 620px) {
+  .testing-banner { flex-direction: column; align-items: flex-start; }
+}
 
 /* Tooltip on the HH/MM time fields */
 .sch-tooltip {
@@ -2457,10 +2525,10 @@ p { margin: 0 0 16px; }
 }
 .schedule-done strong { color: var(--navy); }
 
-/* Test credit card visual */
+/* Test credit card visual — proper credit-card aspect ratio (1.586 : 1, ID-1 standard) */
 .test-card {
   position: relative;
-  padding: 24px 26px;
+  padding: 22px 24px;
   border-radius: 14px;
   background:
     radial-gradient(circle at 90% -20%, rgba(255, 39, 183, 0.4), transparent 55%),
@@ -2468,10 +2536,12 @@ p { margin: 0 0 16px; }
     linear-gradient(135deg, #0a1f4f 0%, #060349 100%);
   color: #fff;
   font-family: 'Courier New', ui-monospace, monospace;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 18px 40px rgba(6,3,73,0.25), 0 6px 16px rgba(6,3,73,0.18);
   overflow: hidden;
-  min-height: 195px;
-  max-width: 460px;
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 1.586 / 1;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -2506,18 +2576,18 @@ p { margin: 0 0 16px; }
 }
 .test-card__number {
   display: flex;
-  gap: 14px;
-  font-size: 19px;
-  letter-spacing: 0.05em;
+  gap: 12px;
+  font-size: 17px;
+  letter-spacing: 0.04em;
   font-weight: 700;
-  margin: 18px 0;
+  margin: 0;
   position: relative;
   z-index: 1;
   flex-wrap: wrap;
 }
 .test-card__row {
   display: flex;
-  gap: 24px;
+  gap: 20px;
   flex-wrap: wrap;
 }
 .test-card__label {
@@ -3501,10 +3571,23 @@ p { margin: 0 0 16px; }
       </p>
     </div>
 
+    <div class="testing-banner">
+      <div class="testing-banner__icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+      </div>
+      <div class="testing-banner__body">
+        <strong>Test environment:</strong> you'll test the feature on
+        <a href="https://tcp.pharmacymentordev.com/" target="_blank" rel="noopener" class="testing-banner__url">tcp.pharmacymentordev.com</a>
+        — a staging copy of your live site, where the Mollie test card below will work.
+        Your existing login credentials should be identical to the live site.
+        If they aren't, drop <a href="mailto:Joe.laurens@pharmacymentor.com">Joey an email</a>.
+      </div>
+    </div>
+
     <div class="testing-grid">
 
       <!-- Mollie test card (use first to place a test order) -->
-      <div class="card testing-card">
+      <div class="card testing-card testing-card--info">
         <div class="testing-card__head">
           <div class="testing-card__icon" aria-hidden="true">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 11h20M6 16h4"/></svg>
